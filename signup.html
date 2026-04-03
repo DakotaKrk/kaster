@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skapa konto — Kaster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #1a3350;
+      --navy-dark: #0f1f32;
+      --navy-light: #2a4a6e;
+      --accent: #4a8fc1;
+      --accent-light: #e8f2fa;
+      --white: #ffffff;
+      --off-white: #f7f8fa;
+      --gray-100: #f0f2f5;
+      --gray-200: #e2e6ec;
+      --gray-400: #9aa5b4;
+      --gray-600: #4a5568;
+      --gray-800: #1a202c;
+      --green: #2d7a4f;
+      --green-light: #e8f5ef;
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+    }
+    body { font-family: var(--font-body); background: var(--off-white); color: var(--gray-800); -webkit-font-smoothing: antialiased; min-height: 100vh; display: flex; flex-direction: column; }
+    .navbar { background: rgba(255,255,255,0.96); border-bottom: 1px solid var(--gray-200); padding: 0 48px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: var(--font-display); font-size: 24px; color: var(--navy-dark); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-back { font-size: 14px; color: var(--gray-600); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+    .page { flex: 1; display: grid; grid-template-columns: 1fr 1fr; min-height: calc(100vh - 64px); }
+    .left { background: var(--navy-dark); padding: 64px 56px; display: flex; flex-direction: column; justify-content: center; }
+    .left-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; }
+    .left-title { font-family: var(--font-display); font-size: 44px; color: white; letter-spacing: -1.5px; line-height: 1.05; margin-bottom: 20px; }
+    .left-title em { font-style: italic; color: #a0c8e8; }
+    .left-sub { font-size: 16px; color: #5a7a98; line-height: 1.65; margin-bottom: 48px; font-weight: 300; }
+    .left-points { display: flex; flex-direction: column; gap: 16px; }
+    .left-point { display: flex; align-items: center; gap: 14px; }
+    .point-icon { width: 36px; height: 36px; border-radius: 8px; background: rgba(74,143,193,0.15); border: 1px solid rgba(74,143,193,0.25); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .point-text { font-size: 14px; color: #7a9ab8; line-height: 1.4; }
+    .point-text strong { color: #a0c8e8; display: block; font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+    .right { padding: 64px 56px; display: flex; flex-direction: column; justify-content: center; background: white; }
+    .form-title { font-family: var(--font-display); font-size: 32px; color: var(--navy-dark); letter-spacing: -0.5px; margin-bottom: 8px; }
+    .form-sub { font-size: 14px; color: var(--gray-600); margin-bottom: 40px; }
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--navy-dark); margin-bottom: 8px; }
+    .form-input { width: 100%; padding: 12px 16px; border: 1px solid var(--gray-200); border-radius: 8px; font-size: 15px; font-family: var(--font-body); color: var(--gray-800); background: var(--off-white); outline: none; transition: border-color 0.2s; }
+    .form-input:focus { border-color: var(--accent); background: white; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .price-box { background: var(--accent-light); border: 1px solid #c8dff0; border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+    .price-label { font-size: 14px; color: var(--navy); font-weight: 500; }
+    .price-desc { font-size: 12px; color: var(--gray-600); margin-top: 2px; }
+    .price-amount { font-family: var(--font-display); font-size: 32px; color: var(--navy-dark); }
+    .price-amount span { font-family: var(--font-body); font-size: 14px; color: var(--gray-400); }
+    .btn-submit { width: 100%; background: var(--navy-dark); color: white; font-size: 15px; font-weight: 600; padding: 14px; border-radius: 8px; border: none; cursor: pointer; font-family: var(--font-body); transition: background 0.2s; }
+    .btn-submit:hover { background: var(--navy-light); }
+    .form-footer { font-size: 12px; color: var(--gray-400); text-align: center; margin-top: 16px; line-height: 1.6; }
+    .form-footer a { color: var(--accent); text-decoration: none; }
+    .divider { display: flex; align-items: center; gap: 16px; margin: 24px 0; }
+    .divider-line { flex: 1; height: 1px; background: var(--gray-200); }
+    .divider-text { font-size: 12px; color: var(--gray-400); }
+    .btn-google { width: 100%; background: white; color: var(--gray-800); font-size: 14px; font-weight: 500; padding: 12px; border-radius: 8px; border: 1px solid var(--gray-200); cursor: pointer; font-family: var(--font-body); display: flex; align-items: center; justify-content: center; gap: 10px; transition: border-color 0.2s; margin-bottom: 24px; }
+    .btn-google:hover { border-color: var(--gray-400); }
+
+@media (max-width: 768px) {
+  .navbar { padding: 0 20px; height: 56px; }
+  .nav-links { display: none; }
+  .nav-mobile { display: flex; align-items: center; gap: 12px; }
+  .btn-nav-mobile { background: var(--navy); color: white !important; font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 6px; text-decoration: none; }
+  .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--navy-dark); border-radius: 2px; }
+  .hero { padding: 64px 24px 48px; }
+  .hero h1 { font-size: 40px; letter-spacing: -1.5px; }
+  .hero-sub { font-size: 16px; }
+  .hero-actions { flex-direction: column; align-items: center; }
+  .hero-actions a { width: 100%; text-align: center; }
+  .hero-stats { gap: 32px; flex-wrap: wrap; padding-top: 32px; }
+  .hero-stat-num { font-size: 28px; }
+  .section { padding: 64px 24px; }
+  .section-title { font-size: 32px; }
+  .section-sub { font-size: 15px; margin-bottom: 40px; }
+  .steps { grid-template-columns: 1fr; gap: 20px; }
+  .features { grid-template-columns: 1fr; gap: 16px; }
+  .preview-wrap { grid-template-columns: 1fr; gap: 40px; }
+  .for-who { grid-template-columns: 1fr; gap: 20px; }
+  .cta { padding: 64px 24px; }
+  .cta h2 { font-size: 36px; }
+  .cta-btns { flex-direction: column; align-items: center; }
+  .cta-btns a { width: 100%; text-align: center; }
+  .footer { padding: 32px 24px; flex-direction: column; gap: 20px; text-align: center; }
+  .footer-links { justify-content: center; }
+  .page-layout { grid-template-columns: 1fr; }
+  .left-panel { display: none; }
+  .right-panel { display: none; }
+  .pass-header { padding: 24px; flex-direction: column; gap: 16px; }
+  .pass-avatar { width: 64px; height: 64px; font-size: 22px; }
+  .pass-name { font-size: 24px; }
+  .pass-body { padding: 0 24px; }
+  .pass-footer { padding: 16px 24px; flex-direction: column; gap: 12px; align-items: flex-start; }
+  .skill-grid { grid-template-columns: 1fr; }
+  .page { grid-template-columns: 1fr; }
+  .left { display: none; }
+  .right { padding: 48px 32px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-stats-cards { display: none; }
+  .pricing-grid { grid-template-columns: 1fr; gap: 20px; }
+  .pricing-card.featured { transform: scale(1); }
+  .pricing-cards { grid-template-columns: 1fr; }
+  .compare { overflow-x: auto; }
+  .values { grid-template-columns: 1fr; gap: 16px; }
+  .team { grid-template-columns: 1fr; gap: 16px; }
+  .main { grid-template-columns: 1fr; padding: 24px; }
+  .filters { display: none; }
+  .search-bar { margin: 0 24px; }
+  .feed-section { padding: 0; }
+  .pass-meta { gap: 12px; }
+  .exp-top { flex-direction: column; gap: 4px; }
+  .steps-wrap { padding: 0; }
+  .step-row { grid-template-columns: 48px 1fr; gap: 16px; }
+  .faq { padding: 0; }
+  .contact-box { padding: 32px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+  .verify-body { padding: 24px; }
+  .verify-header { padding: 32px 24px; }
+  .pass-footer-right { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .profile-top { flex-wrap: wrap; }
+  .card-actions { flex-direction: row; margin-left: 0; margin-top: 8px; }
+  .card-top { flex-wrap: wrap; }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 32px; }
+  .section-title { font-size: 28px; }
+  .pass-name { font-size: 20px; }
+  .hero-eyebrow { font-size: 10px; padding: 5px 12px; }
+}
+
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="logo">kaster<span>.</span></a>
+    <a href="index.html" class="nav-back">← Tillbaka till startsidan</a>
+  
+    <div class="nav-mobile" style="display:none;">
+      <a href="signup.html" class="btn-nav-mobile">Skapa profil</a>
+      <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" style="display:none;position:fixed;top:56px;left:0;right:0;background:white;border-bottom:1px solid #e2e6ec;padding:16px 24px;z-index:99;flex-direction:column;gap:0;">
+      <a href="index.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Startsida</a>
+      <a href="how-it-works.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Hur det fungerar</a>
+      <a href="for-employers.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">För företag</a>
+      <a href="pricing.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Priser</a>
+      <a href="about.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Om oss</a>
+      <a href="login.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Logga in</a>
+      <a href="signup.html" style="display:block;margin-top:12px;background:#1a3350;color:white;text-align:center;padding:14px;border-radius:8px;font-size:15px;font-weight:600;text-decoration:none;">Skapa profil — 99 kr</a>
+    </div>
+  </nav>
+  <div class="page">
+    <div class="left">
+      <p class="left-eyebrow">Kom igång idag</p>
+      <h1 class="left-title">Ditt digitala<br>CV-<em>pass</em></h1>
+      <p class="left-sub">Skapa din verifierade profil en gång — visa den för alla arbetsgivare för alltid.</p>
+      <div class="left-points">
+        <div class="left-point">
+          <div class="point-icon">✓</div>
+          <div class="point-text"><strong>Verifierade kompetenser</strong>Bjud in referenser att bekräfta vad du kan</div>
+        </div>
+        <div class="left-point">
+          <div class="point-icon">📄</div>
+          <div class="point-text"><strong>CV-pass med QR-kod</strong>Ladda ner och dela med arbetsgivare</div>
+        </div>
+        <div class="left-point">
+          <div class="point-icon">🔒</div>
+          <div class="point-text"><strong>Du äger din data</strong>GDPR-säkert, du bestämmer vem som ser vad</div>
+        </div>
+        <div class="left-point">
+          <div class="point-icon">★</div>
+          <div class="point-text"><strong>Engångsbetalning</strong>99 kr en gång — profilen är din för alltid</div>
+        </div>
+      </div>
+    </div>
+    <div class="right">
+      <h2 class="form-title">Skapa ditt konto</h2>
+      <p class="form-sub">Redan medlem? <a href="#" style="color: var(--accent); text-decoration: none;">Logga in här</a></p>
+      <button class="btn-google">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Fortsätt med Google
+      </button>
+      <div class="divider"><div class="divider-line"></div><div class="divider-text">eller med e-post</div><div class="divider-line"></div></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Förnamn</label><input class="form-input" type="text" placeholder="Anna"></div>
+        <div class="form-group"><label class="form-label">Efternamn</label><input class="form-input" type="text" placeholder="Johansson"></div>
+      </div>
+      <div class="form-group"><label class="form-label">E-postadress</label><input class="form-input" type="email" placeholder="anna@exempel.se"></div>
+      <div class="form-group"><label class="form-label">Lösenord</label><input class="form-input" type="password" placeholder="Minst 8 tecken"></div>
+      <div class="price-box">
+        <div><div class="price-label">Kaster-pass</div><div class="price-desc">Engångsbetalning · Profilen är din för alltid</div></div>
+        <div class="price-amount">99 <span>kr</span></div>
+      </div>
+      <button class="btn-submit">Skapa konto och betala 99 kr</button>
+      <p class="form-footer">Genom att skapa ett konto godkänner du våra <a href="#">användarvillkor</a> och <a href="#">integritetspolicy</a>.<br>Din betalning hanteras säkert via Stripe.</p>
+    </div>
+  </div>
+
+  <script>
+    // Show hamburger on mobile
+    function checkMobile() {
+      const isMobile = window.innerWidth <= 768;
+      const navLinks = document.querySelector('.nav-links');
+      const navMobile = document.querySelector('.nav-mobile');
+      if (navLinks) navLinks.style.display = isMobile ? 'none' : 'flex';
+      if (navMobile) navMobile.style.display = isMobile ? 'flex' : 'none';
+    }
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const isOpen = menu.style.display === 'flex';
+      menu.style.display = isOpen ? 'none' : 'flex';
+    }
+    window.addEventListener('resize', checkMobile);
+    checkMobile();
+  </script>
+</body>
+</html>

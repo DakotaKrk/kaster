@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verifiera kompetens — Kaster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #1a3350; --navy-dark: #0f1f32; --navy-light: #2a4a6e; --accent: #4a8fc1; --accent-light: #e8f2fa; --white: #ffffff; --off-white: #f7f8fa; --gray-100: #f0f2f5; --gray-200: #e2e6ec; --gray-400: #9aa5b4; --gray-600: #4a5568; --gray-800: #1a202c; --green: #2d7a4f; --green-light: #e8f5ef; --red: #c0392b; --red-light: #fdf0ef; --font-display: 'DM Serif Display', Georgia, serif; --font-body: 'DM Sans', system-ui, sans-serif;
+    }
+    body { font-family: var(--font-body); background: var(--off-white); color: var(--gray-800); -webkit-font-smoothing: antialiased; min-height: 100vh; }
+    .navbar { background: rgba(255,255,255,0.96); border-bottom: 1px solid var(--gray-200); padding: 0 48px; height: 64px; display: flex; align-items: center; justify-content: center; }
+    .logo { font-family: var(--font-display); font-size: 24px; color: var(--navy-dark); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .page { max-width: 600px; margin: 60px auto; padding: 0 24px; }
+
+    .verify-card { background: white; border-radius: 20px; border: 1px solid var(--gray-200); overflow: hidden; box-shadow: 0 8px 40px rgba(26,51,80,0.08); }
+
+    .verify-header { background: var(--navy-dark); padding: 40px; text-align: center; }
+    .verify-icon { width: 64px; height: 64px; border-radius: 50%; background: rgba(74,143,193,0.2); border: 2px solid rgba(74,143,193,0.4); display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 20px; }
+    .verify-header-title { font-family: var(--font-display); font-size: 28px; color: white; margin-bottom: 8px; }
+    .verify-header-sub { font-size: 14px; color: #7a9ab8; line-height: 1.5; }
+
+    .verify-body { padding: 40px; }
+
+    .candidate-info { display: flex; gap: 16px; align-items: center; background: var(--off-white); border-radius: 12px; padding: 20px; margin-bottom: 32px; border: 1px solid var(--gray-200); }
+    .cand-avatar { width: 56px; height: 56px; border-radius: 50%; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 20px; color: var(--accent); border: 2px solid #c8dff0; flex-shrink: 0; }
+    .cand-name { font-size: 17px; font-weight: 600; color: var(--navy-dark); margin-bottom: 2px; }
+    .cand-role { font-size: 13px; color: var(--gray-600); }
+
+    .skills-to-verify { margin-bottom: 32px; }
+    .svt-title { font-size: 13px; font-weight: 700; color: var(--navy-dark); margin-bottom: 16px; letter-spacing: 0.5px; }
+    .skill-verify-row { display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 1px solid var(--gray-200); border-radius: 10px; margin-bottom: 10px; background: white; }
+    .svr-left {}
+    .svr-skill { font-size: 15px; font-weight: 600; color: var(--navy-dark); margin-bottom: 2px; }
+    .svr-years { font-size: 12px; color: var(--gray-400); }
+    .svr-actions { display: flex; gap: 8px; }
+    .btn-confirm { background: var(--green); color: white; font-size: 13px; font-weight: 600; padding: 8px 18px; border-radius: 6px; border: none; cursor: pointer; font-family: var(--font-body); transition: background 0.2s; }
+    .btn-confirm:hover { background: #236040; }
+    .btn-confirm.active { background: var(--green); opacity: 0.7; }
+    .btn-deny { background: white; color: var(--red); font-size: 13px; font-weight: 500; padding: 8px 18px; border-radius: 6px; border: 1px solid #e0b8b8; cursor: pointer; font-family: var(--font-body); transition: background 0.2s; }
+    .btn-deny:hover { background: var(--red-light); }
+    .confirmed-badge { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--green); font-weight: 600; }
+
+    .ref-info { margin-bottom: 32px; }
+    .ref-title { font-size: 13px; font-weight: 700; color: var(--navy-dark); margin-bottom: 16px; }
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--navy-dark); margin-bottom: 8px; }
+    .form-input { width: 100%; padding: 12px 16px; border: 1px solid var(--gray-200); border-radius: 8px; font-size: 14px; font-family: var(--font-body); color: var(--gray-800); background: var(--off-white); outline: none; transition: border-color 0.2s; }
+    .form-input:focus { border-color: var(--accent); background: white; }
+    .form-textarea { width: 100%; padding: 12px 16px; border: 1px solid var(--gray-200); border-radius: 8px; font-size: 14px; font-family: var(--font-body); color: var(--gray-800); background: var(--off-white); outline: none; transition: border-color 0.2s; resize: vertical; min-height: 100px; }
+    .form-textarea:focus { border-color: var(--accent); background: white; }
+
+    .btn-submit-verify { width: 100%; background: var(--navy-dark); color: white; font-size: 15px; font-weight: 600; padding: 14px; border-radius: 8px; border: none; cursor: pointer; font-family: var(--font-body); transition: background 0.2s; }
+    .btn-submit-verify:hover { background: var(--navy-light); }
+
+    .verify-footer { padding: 24px 40px; border-top: 1px solid var(--gray-100); background: var(--off-white); text-align: center; }
+    .verify-footer-text { font-size: 12px; color: var(--gray-400); line-height: 1.6; }
+    .verify-footer-text a { color: var(--accent); text-decoration: none; }
+
+    .success-screen { display: none; text-align: center; padding: 60px 40px; }
+    .success-icon { font-size: 56px; margin-bottom: 20px; }
+    .success-title { font-family: var(--font-display); font-size: 32px; color: var(--navy-dark); margin-bottom: 12px; }
+    .success-text { font-size: 15px; color: var(--gray-600); line-height: 1.65; max-width: 360px; margin: 0 auto 32px; }
+    .btn-done { background: var(--navy-dark); color: white; font-size: 14px; font-weight: 600; padding: 12px 28px; border-radius: 8px; text-decoration: none; display: inline-block; }
+
+@media (max-width: 768px) {
+  .navbar { padding: 0 20px; height: 56px; }
+  .nav-links { display: none; }
+  .nav-mobile { display: flex; align-items: center; gap: 12px; }
+  .btn-nav-mobile { background: var(--navy); color: white !important; font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 6px; text-decoration: none; }
+  .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--navy-dark); border-radius: 2px; }
+  .hero { padding: 64px 24px 48px; }
+  .hero h1 { font-size: 40px; letter-spacing: -1.5px; }
+  .hero-sub { font-size: 16px; }
+  .hero-actions { flex-direction: column; align-items: center; }
+  .hero-actions a { width: 100%; text-align: center; }
+  .hero-stats { gap: 32px; flex-wrap: wrap; padding-top: 32px; }
+  .hero-stat-num { font-size: 28px; }
+  .section { padding: 64px 24px; }
+  .section-title { font-size: 32px; }
+  .section-sub { font-size: 15px; margin-bottom: 40px; }
+  .steps { grid-template-columns: 1fr; gap: 20px; }
+  .features { grid-template-columns: 1fr; gap: 16px; }
+  .preview-wrap { grid-template-columns: 1fr; gap: 40px; }
+  .for-who { grid-template-columns: 1fr; gap: 20px; }
+  .cta { padding: 64px 24px; }
+  .cta h2 { font-size: 36px; }
+  .cta-btns { flex-direction: column; align-items: center; }
+  .cta-btns a { width: 100%; text-align: center; }
+  .footer { padding: 32px 24px; flex-direction: column; gap: 20px; text-align: center; }
+  .footer-links { justify-content: center; }
+  .page-layout { grid-template-columns: 1fr; }
+  .left-panel { display: none; }
+  .right-panel { display: none; }
+  .pass-header { padding: 24px; flex-direction: column; gap: 16px; }
+  .pass-avatar { width: 64px; height: 64px; font-size: 22px; }
+  .pass-name { font-size: 24px; }
+  .pass-body { padding: 0 24px; }
+  .pass-footer { padding: 16px 24px; flex-direction: column; gap: 12px; align-items: flex-start; }
+  .skill-grid { grid-template-columns: 1fr; }
+  .page { grid-template-columns: 1fr; }
+  .left { display: none; }
+  .right { padding: 48px 32px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-stats-cards { display: none; }
+  .pricing-grid { grid-template-columns: 1fr; gap: 20px; }
+  .pricing-card.featured { transform: scale(1); }
+  .pricing-cards { grid-template-columns: 1fr; }
+  .compare { overflow-x: auto; }
+  .values { grid-template-columns: 1fr; gap: 16px; }
+  .team { grid-template-columns: 1fr; gap: 16px; }
+  .main { grid-template-columns: 1fr; padding: 24px; }
+  .filters { display: none; }
+  .search-bar { margin: 0 24px; }
+  .feed-section { padding: 0; }
+  .pass-meta { gap: 12px; }
+  .exp-top { flex-direction: column; gap: 4px; }
+  .steps-wrap { padding: 0; }
+  .step-row { grid-template-columns: 48px 1fr; gap: 16px; }
+  .faq { padding: 0; }
+  .contact-box { padding: 32px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+  .verify-body { padding: 24px; }
+  .verify-header { padding: 32px 24px; }
+  .pass-footer-right { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .profile-top { flex-wrap: wrap; }
+  .card-actions { flex-direction: row; margin-left: 0; margin-top: 8px; }
+  .card-top { flex-wrap: wrap; }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 32px; }
+  .section-title { font-size: 28px; }
+  .pass-name { font-size: 20px; }
+  .hero-eyebrow { font-size: 10px; padding: 5px 12px; }
+}
+
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="logo">kaster<span>.</span></a>
+  
+    <div class="nav-mobile" style="display:none;">
+      <a href="signup.html" class="btn-nav-mobile">Skapa profil</a>
+      <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" style="display:none;position:fixed;top:56px;left:0;right:0;background:white;border-bottom:1px solid #e2e6ec;padding:16px 24px;z-index:99;flex-direction:column;gap:0;">
+      <a href="index.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Startsida</a>
+      <a href="how-it-works.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Hur det fungerar</a>
+      <a href="for-employers.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">För företag</a>
+      <a href="pricing.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Priser</a>
+      <a href="about.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Om oss</a>
+      <a href="login.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Logga in</a>
+      <a href="signup.html" style="display:block;margin-top:12px;background:#1a3350;color:white;text-align:center;padding:14px;border-radius:8px;font-size:15px;font-weight:600;text-decoration:none;">Skapa profil — 99 kr</a>
+    </div>
+  </nav>
+
+  <div class="page">
+    <div class="verify-card">
+      <div class="verify-header">
+        <div class="verify-icon">✓</div>
+        <h1 class="verify-header-title">Verifiera kompetenser</h1>
+        <p class="verify-header-sub">Nataly K. har bjudit in dig att bekräfta<br>hennes kompetenser på Kaster.</p>
+      </div>
+
+      <div class="verify-body" id="verify-form">
+
+        <div class="candidate-info">
+          <div class="cand-avatar">NK</div>
+          <div>
+            <div class="cand-name">Nataly K.</div>
+            <div class="cand-role">Projektledare & HR-specialist · Coop Sverige 2016–2024</div>
+          </div>
+        </div>
+
+        <div class="skills-to-verify">
+          <div class="svt-title">Bekräfta följande kompetenser</div>
+
+          <div class="skill-verify-row" id="row-1">
+            <div class="svr-left">
+              <div class="svr-skill">Projektledning</div>
+              <div class="svr-years">Nataly påstår: 6 års erfarenhet</div>
+            </div>
+            <div class="svr-actions" id="actions-1">
+              <button class="btn-confirm" onclick="confirm(1)">✓ Bekräfta</button>
+              <button class="btn-deny" onclick="deny(1)">✗ Kan ej bekräfta</button>
+            </div>
+          </div>
+
+          <div class="skill-verify-row" id="row-2">
+            <div class="svr-left">
+              <div class="svr-skill">HR-administration</div>
+              <div class="svr-years">Nataly påstår: 8 års erfarenhet</div>
+            </div>
+            <div class="svr-actions" id="actions-2">
+              <button class="btn-confirm" onclick="confirm(2)">✓ Bekräfta</button>
+              <button class="btn-deny" onclick="deny(2)">✗ Kan ej bekräfta</button>
+            </div>
+          </div>
+
+          <div class="skill-verify-row" id="row-3">
+            <div class="svr-left">
+              <div class="svr-skill">Teamledning</div>
+              <div class="svr-years">Nataly påstår: 8 års erfarenhet</div>
+            </div>
+            <div class="svr-actions" id="actions-3">
+              <button class="btn-confirm" onclick="confirm(3)">✓ Bekräfta</button>
+              <button class="btn-deny" onclick="deny(3)">✗ Kan ej bekräfta</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ref-info">
+          <div class="ref-title">Dina uppgifter som referens</div>
+          <div class="form-group">
+            <label class="form-label">Ditt namn</label>
+            <input class="form-input" type="text" placeholder="Anna Johansson">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Din titel & företag</label>
+            <input class="form-input" type="text" placeholder="Regionchef · Coop Sverige">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Valfritt citat om Nataly</label>
+            <textarea class="form-textarea" placeholder="T.ex. 'En av de mest strukturerade ledare jag jobbat med...'"></textarea>
+          </div>
+        </div>
+
+        <button class="btn-submit-verify" onclick="submitVerify()">Skicka verifiering</button>
+      </div>
+
+      <div class="success-screen" id="success-screen">
+        <div class="success-icon">🎉</div>
+        <h2 class="success-title">Tack för din verifiering!</h2>
+        <p class="success-text">Din bekräftelse har skickats till Kaster. Nataly's kompetenser kommer nu att visas som verifierade på hennes profil.</p>
+        <a href="index.html" class="btn-done">Gå till Kaster</a>
+      </div>
+
+      <div class="verify-footer">
+        <p class="verify-footer-text">Din verifiering är frivillig och kan återkallas när som helst.<br>Läs mer om hur vi hanterar data i vår <a href="#">integritetspolicy</a>.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function confirm(id) {
+      const actions = document.getElementById('actions-' + id);
+      const row = document.getElementById('row-' + id);
+      actions.innerHTML = '<div class="confirmed-badge">✓ Bekräftad</div>';
+      row.style.borderColor = '#b8e0c8';
+      row.style.background = '#f8fff8';
+    }
+    function deny(id) {
+      const actions = document.getElementById('actions-' + id);
+      const row = document.getElementById('row-' + id);
+      actions.innerHTML = '<div style="font-size:13px;color:#c0392b;font-weight:600;">✗ Ej bekräftad</div>';
+      row.style.borderColor = '#e0b8b8';
+      row.style.background = '#fff8f8';
+    }
+    function submitVerify() {
+      document.getElementById('verify-form').style.display = 'none';
+      document.getElementById('success-screen').style.display = 'block';
+    }
+  </script>
+
+  <script>
+    // Show hamburger on mobile
+    function checkMobile() {
+      const isMobile = window.innerWidth <= 768;
+      const navLinks = document.querySelector('.nav-links');
+      const navMobile = document.querySelector('.nav-mobile');
+      if (navLinks) navLinks.style.display = isMobile ? 'none' : 'flex';
+      if (navMobile) navMobile.style.display = isMobile ? 'flex' : 'none';
+    }
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const isOpen = menu.style.display === 'flex';
+      menu.style.display = isOpen ? 'none' : 'flex';
+    }
+    window.addEventListener('resize', checkMobile);
+    checkMobile();
+  </script>
+</body>
+</html>

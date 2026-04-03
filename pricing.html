@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Priser — Kaster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --navy: #1a3350; --navy-dark: #0f1f32; --navy-light: #2a4a6e; --accent: #4a8fc1; --accent-light: #e8f2fa; --off-white: #f7f8fa; --gray-100: #f0f2f5; --gray-200: #e2e6ec; --gray-400: #9aa5b4; --gray-600: #4a5568; --gray-800: #1a202c; --green: #2d7a4f; --green-light: #e8f5ef; --font-display: 'DM Serif Display', Georgia, serif; --font-body: 'DM Sans', system-ui, sans-serif; }
+    body { font-family: var(--font-body); background: var(--off-white); color: var(--gray-800); -webkit-font-smoothing: antialiased; }
+    .navbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--gray-200); padding: 0 48px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: var(--font-display); font-size: 24px; color: var(--navy-dark); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--gray-600); text-decoration: none; }
+    .btn-nav { background: var(--navy) !important; color: white !important; font-size: 13px; font-weight: 600; padding: 10px 22px; border-radius: 8px; text-decoration: none; }
+    .hero { background: var(--navy-dark); padding: 80px 48px; text-align: center; }
+    .hero-eyebrow { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); background: rgba(74,143,193,0.12); border: 1px solid rgba(74,143,193,0.25); padding: 6px 16px; border-radius: 20px; margin-bottom: 24px; }
+    .hero h1 { font-family: var(--font-display); font-size: 52px; color: white; letter-spacing: -2px; margin-bottom: 16px; line-height: 1.05; }
+    .hero h1 em { font-style: italic; color: #a0c8e8; }
+    .hero-sub { font-size: 17px; color: #7a9ab8; max-width: 440px; margin: 0 auto; line-height: 1.65; font-weight: 300; }
+    .section { padding: 96px 48px; }
+    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; text-align: center; }
+    .section-title { font-family: var(--font-display); font-size: 44px; color: var(--navy-dark); text-align: center; letter-spacing: -1px; margin-bottom: 16px; line-height: 1.1; }
+    .section-sub { font-size: 17px; color: var(--gray-600); text-align: center; max-width: 520px; margin: 0 auto 64px; line-height: 1.65; font-weight: 300; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 960px; margin: 0 auto; }
+    .pricing-card { background: white; border-radius: 20px; border: 1px solid var(--gray-200); padding: 40px 36px; position: relative; }
+    .pricing-card.featured { background: var(--navy-dark); border-color: var(--navy-dark); transform: scale(1.03); }
+    .popular-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--accent); color: white; font-size: 11px; font-weight: 700; padding: 4px 16px; border-radius: 20px; letter-spacing: 1px; white-space: nowrap; }
+    .pricing-tag { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .pricing-name { font-family: var(--font-display); font-size: 26px; color: var(--navy-dark); margin-bottom: 24px; }
+    .pricing-card.featured .pricing-name { color: white; }
+    .pricing-amount { display: flex; align-items: baseline; gap: 4px; margin-bottom: 4px; }
+    .pricing-num { font-family: var(--font-display); font-size: 52px; color: var(--navy-dark); line-height: 1; }
+    .pricing-card.featured .pricing-num { color: white; }
+    .pricing-currency { font-size: 20px; color: var(--gray-400); }
+    .pricing-period { font-size: 13px; color: var(--gray-400); margin-bottom: 32px; }
+    .pricing-points { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+    .pricing-point { display: flex; gap: 10px; font-size: 13px; color: var(--gray-600); line-height: 1.4; }
+    .pricing-card.featured .pricing-point { color: #7a9ab8; }
+    .p-check { color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .p-cross { color: var(--gray-400); flex-shrink: 0; }
+    .btn-pricing { display: block; text-align: center; background: var(--accent); color: white; font-size: 14px; font-weight: 600; padding: 13px; border-radius: 8px; text-decoration: none; }
+    .btn-pricing-dark { display: block; text-align: center; background: var(--navy-dark); color: white; font-size: 14px; font-weight: 600; padding: 13px; border-radius: 8px; text-decoration: none; }
+    .btn-pricing-outline { display: block; text-align: center; background: transparent; color: var(--navy-dark); font-size: 14px; font-weight: 600; padding: 13px; border-radius: 8px; text-decoration: none; border: 1px solid var(--gray-200); }
+    .guarantee { max-width: 600px; margin: 64px auto 0; text-align: center; background: var(--green-light); border: 1px solid #b8e0c8; border-radius: 16px; padding: 32px; }
+    .guarantee-icon { font-size: 32px; margin-bottom: 12px; }
+    .guarantee-title { font-size: 18px; font-weight: 600; color: var(--navy-dark); margin-bottom: 8px; }
+    .guarantee-text { font-size: 14px; color: var(--gray-600); line-height: 1.65; }
+    .cta { background: var(--navy-dark); padding: 96px 48px; text-align: center; }
+    .cta h2 { font-family: var(--font-display); font-size: 48px; color: white; letter-spacing: -1.5px; margin-bottom: 16px; }
+    .cta h2 em { font-style: italic; color: #a0c8e8; }
+    .cta p { font-size: 17px; color: #5a7a98; margin-bottom: 40px; }
+    .btn-primary { background: var(--accent); color: white; font-size: 15px; font-weight: 600; padding: 14px 32px; border-radius: 8px; text-decoration: none; display: inline-block; }
+    .footer { background: #0a1628; padding: 48px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-logo { font-family: var(--font-display); font-size: 22px; color: #3a5a78; }
+    .footer-logo span { color: #2a4a68; }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-links a { font-size: 13px; color: #2a4a68; text-decoration: none; }
+    .footer-text { font-size: 13px; color: #2a4a68; }
+
+@media (max-width: 768px) {
+  .navbar { padding: 0 20px; height: 56px; }
+  .nav-links { display: none; }
+  .nav-mobile { display: flex; align-items: center; gap: 12px; }
+  .btn-nav-mobile { background: var(--navy); color: white !important; font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 6px; text-decoration: none; }
+  .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--navy-dark); border-radius: 2px; }
+  .hero { padding: 64px 24px 48px; }
+  .hero h1 { font-size: 40px; letter-spacing: -1.5px; }
+  .hero-sub { font-size: 16px; }
+  .hero-actions { flex-direction: column; align-items: center; }
+  .hero-actions a { width: 100%; text-align: center; }
+  .hero-stats { gap: 32px; flex-wrap: wrap; padding-top: 32px; }
+  .hero-stat-num { font-size: 28px; }
+  .section { padding: 64px 24px; }
+  .section-title { font-size: 32px; }
+  .section-sub { font-size: 15px; margin-bottom: 40px; }
+  .steps { grid-template-columns: 1fr; gap: 20px; }
+  .features { grid-template-columns: 1fr; gap: 16px; }
+  .preview-wrap { grid-template-columns: 1fr; gap: 40px; }
+  .for-who { grid-template-columns: 1fr; gap: 20px; }
+  .cta { padding: 64px 24px; }
+  .cta h2 { font-size: 36px; }
+  .cta-btns { flex-direction: column; align-items: center; }
+  .cta-btns a { width: 100%; text-align: center; }
+  .footer { padding: 32px 24px; flex-direction: column; gap: 20px; text-align: center; }
+  .footer-links { justify-content: center; }
+  .page-layout { grid-template-columns: 1fr; }
+  .left-panel { display: none; }
+  .right-panel { display: none; }
+  .pass-header { padding: 24px; flex-direction: column; gap: 16px; }
+  .pass-avatar { width: 64px; height: 64px; font-size: 22px; }
+  .pass-name { font-size: 24px; }
+  .pass-body { padding: 0 24px; }
+  .pass-footer { padding: 16px 24px; flex-direction: column; gap: 12px; align-items: flex-start; }
+  .skill-grid { grid-template-columns: 1fr; }
+  .page { grid-template-columns: 1fr; }
+  .left { display: none; }
+  .right { padding: 48px 32px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-stats-cards { display: none; }
+  .pricing-grid { grid-template-columns: 1fr; gap: 20px; }
+  .pricing-card.featured { transform: scale(1); }
+  .pricing-cards { grid-template-columns: 1fr; }
+  .compare { overflow-x: auto; }
+  .values { grid-template-columns: 1fr; gap: 16px; }
+  .team { grid-template-columns: 1fr; gap: 16px; }
+  .main { grid-template-columns: 1fr; padding: 24px; }
+  .filters { display: none; }
+  .search-bar { margin: 0 24px; }
+  .feed-section { padding: 0; }
+  .pass-meta { gap: 12px; }
+  .exp-top { flex-direction: column; gap: 4px; }
+  .steps-wrap { padding: 0; }
+  .step-row { grid-template-columns: 48px 1fr; gap: 16px; }
+  .faq { padding: 0; }
+  .contact-box { padding: 32px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+  .verify-body { padding: 24px; }
+  .verify-header { padding: 32px 24px; }
+  .pass-footer-right { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .profile-top { flex-wrap: wrap; }
+  .card-actions { flex-direction: row; margin-left: 0; margin-top: 8px; }
+  .card-top { flex-wrap: wrap; }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 32px; }
+  .section-title { font-size: 28px; }
+  .pass-name { font-size: 20px; }
+  .hero-eyebrow { font-size: 10px; padding: 5px 12px; }
+}
+
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="logo">kaster<span>.</span></a>
+    <div class="nav-links">
+      <a href="how-it-works.html">Hur det fungerar</a>
+      <a href="for-employers.html">För företag</a>
+      <a href="pricing.html">Priser</a>
+      <a href="login.html">Logga in</a>
+      <a href="signup.html" class="btn-nav">Skapa profil</a>
+    </div>
+  
+    <div class="nav-mobile" style="display:none;">
+      <a href="signup.html" class="btn-nav-mobile">Skapa profil</a>
+      <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" style="display:none;position:fixed;top:56px;left:0;right:0;background:white;border-bottom:1px solid #e2e6ec;padding:16px 24px;z-index:99;flex-direction:column;gap:0;">
+      <a href="index.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Startsida</a>
+      <a href="how-it-works.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Hur det fungerar</a>
+      <a href="for-employers.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">För företag</a>
+      <a href="pricing.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Priser</a>
+      <a href="about.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Om oss</a>
+      <a href="login.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Logga in</a>
+      <a href="signup.html" style="display:block;margin-top:12px;background:#1a3350;color:white;text-align:center;padding:14px;border-radius:8px;font-size:15px;font-weight:600;text-decoration:none;">Skapa profil — 99 kr</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Transparent prissättning</div>
+    <h1>Enkla priser,<br><em>inga överraskningar</em></h1>
+    <p class="hero-sub">Välj det som passar dig — kandidat eller arbetsgivare.</p>
+  </div>
+
+  <section class="section">
+    <p class="section-label">För kandidater</p>
+    <h2 class="section-title">Ditt CV-pass</h2>
+    <p class="section-sub">En engångsbetalning — profilen är din för alltid.</p>
+    <div class="pricing-grid" style="grid-template-columns: 1fr 1fr; max-width: 640px;">
+      <div class="pricing-card">
+        <p class="pricing-tag">Grundläggande</p>
+        <h3 class="pricing-name">Gratis profil</h3>
+        <div class="pricing-amount"><span class="pricing-num">0</span><span class="pricing-currency">kr</span></div>
+        <p class="pricing-period">Utan verifiering</p>
+        <div class="pricing-points">
+          <div class="pricing-point"><span class="p-check">✓</span>Skapa en profil</div>
+          <div class="pricing-point"><span class="p-check">✓</span>Lägg till kompetenser</div>
+          <div class="pricing-point"><span class="p-cross">✗</span>Verifiering av referenser</div>
+          <div class="pricing-point"><span class="p-cross">✗</span>PDF-nedladdning</div>
+          <div class="pricing-point"><span class="p-cross">✗</span>Sökbar för arbetsgivare</div>
+        </div>
+        <a href="signup.html" class="btn-pricing-outline">Skapa gratis konto</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="popular-badge">Rekommenderad</div>
+        <p class="pricing-tag">Verifierat pass</p>
+        <h3 class="pricing-name">Kaster-pass</h3>
+        <div class="pricing-amount"><span class="pricing-num">99</span><span class="pricing-currency" style="color:#5a7a98">kr</span></div>
+        <p class="pricing-period" style="color:#5a7a98">Engångsbetalning · för alltid</p>
+        <div class="pricing-points">
+          <div class="pricing-point"><span class="p-check">✓</span>Allt i gratis-planen</div>
+          <div class="pricing-point"><span class="p-check">✓</span>Verifiering av upp till 10 referenser</div>
+          <div class="pricing-point"><span class="p-check">✓</span>PDF-nedladdning med QR-kod</div>
+          <div class="pricing-point"><span class="p-check">✓</span>Sökbar för alla arbetsgivare</div>
+          <div class="pricing-point"><span class="p-check">✓</span>Profilstatistik</div>
+        </div>
+        <a href="signup.html" class="btn-pricing">Kom igång — 99 kr</a>
+      </div>
+    </div>
+
+    <div style="margin-top: 80px;">
+      <p class="section-label">För arbetsgivare</p>
+      <h2 class="section-title" style="margin-top:16px;">Hitta rätt kandidat</h2>
+      <p class="section-sub">Börja gratis — betala bara när du vill kontakta kandidater.</p>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <p class="pricing-tag">Gratis</p>
+          <h3 class="pricing-name">Bläddra</h3>
+          <div class="pricing-amount"><span class="pricing-num">0</span><span class="pricing-currency">kr</span></div>
+          <p class="pricing-period">För alltid gratis</p>
+          <div class="pricing-points">
+            <div class="pricing-point"><span class="p-check">✓</span>Bläddra bland alla profiler</div>
+            <div class="pricing-point"><span class="p-check">✓</span>Se verifieringsstatus</div>
+            <div class="pricing-point"><span class="p-check">✓</span>Spara upp till 5 favoriter</div>
+            <div class="pricing-point"><span class="p-cross">✗</span>Kontakta kandidater</div>
+            <div class="pricing-point"><span class="p-cross">✗</span>Se kontaktuppgifter</div>
+          </div>
+          <a href="employer.html" class="btn-pricing-outline">Börja bläddra</a>
+        </div>
+        <div class="pricing-card featured">
+          <div class="popular-badge">Mest populär</div>
+          <p class="pricing-tag">Pro</p>
+          <h3 class="pricing-name">Rekrytera</h3>
+          <div class="pricing-amount"><span class="pricing-num">499</span><span class="pricing-currency" style="color:#5a7a98">kr</span></div>
+          <p class="pricing-period" style="color:#5a7a98">per månad · avsluta när som helst</p>
+          <div class="pricing-points">
+            <div class="pricing-point"><span class="p-check">✓</span>Allt i gratisplanen</div>
+            <div class="pricing-point"><span class="p-check">✓</span>Kontakta obegränsat med kandidater</div>
+            <div class="pricing-point"><span class="p-check">✓</span>Obegränsat antal favoriter</div>
+            <div class="pricing-point"><span class="p-check">✓</span>Prioriterade sökresultat</div>
+            <div class="pricing-point"><span class="p-check">✓</span>Notiser om nya matchande kandidater</div>
+          </div>
+          <a href="signup.html" class="btn-pricing">Kom igång — 499 kr/mån</a>
+        </div>
+        <div class="pricing-card">
+          <p class="pricing-tag">Enterprise</p>
+          <h3 class="pricing-name">Företag</h3>
+          <div class="pricing-amount"><span class="pricing-num" style="font-size:36px">Kontakta</span></div>
+          <p class="pricing-period">oss för offert</p>
+          <div class="pricing-points">
+            <div class="pricing-point"><span class="p-check">✓</span>Allt i Pro-planen</div>
+            <div class="pricing-point"><span class="p-check">✓</span>Flera användare / HR-team</div>
+            <div class="pricing-point"><span class="p-check">✓</span>Dedikerad support</div>
+            <div class="pricing-point"><span class="p-check">✓</span>API-integration</div>
+            <div class="pricing-point"><span class="p-check">✓</span>Anpassad onboarding</div>
+          </div>
+          <a href="mailto:hej@kaster.io" class="btn-pricing-dark">Kontakta oss</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="guarantee">
+      <div class="guarantee-icon">🛡️</div>
+      <h3 class="guarantee-title">30 dagars nöjd-kund-garanti</h3>
+      <p class="guarantee-text">Inte nöjd? Kontakta oss inom 30 dagar så återbetalar vi din betalning — inga frågor ställda.</p>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2>Kom igång<br><em>idag</em></h2>
+    <p>Skapa ditt Kaster-pass eller börja söka kandidater.</p>
+    <a href="signup.html" class="btn-primary">Skapa konto</a>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-logo">kaster<span>.</span></div>
+    <div class="footer-links">
+      <a href="how-it-works.html">Hur det fungerar</a>
+      <a href="for-employers.html">För företag</a>
+      <a href="pricing.html">Priser</a>
+      <a href="about.html">Om oss</a>
+    </div>
+    <div class="footer-text">© 2024 Kaster. Alla rättigheter förbehållna.</div>
+  </footer>
+
+  <script>
+    // Show hamburger on mobile
+    function checkMobile() {
+      const isMobile = window.innerWidth <= 768;
+      const navLinks = document.querySelector('.nav-links');
+      const navMobile = document.querySelector('.nav-mobile');
+      if (navLinks) navLinks.style.display = isMobile ? 'none' : 'flex';
+      if (navMobile) navMobile.style.display = isMobile ? 'flex' : 'none';
+    }
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const isOpen = menu.style.display === 'flex';
+      menu.style.display = isOpen ? 'none' : 'flex';
+    }
+    window.addEventListener('resize', checkMobile);
+    checkMobile();
+  </script>
+</body>
+</html>

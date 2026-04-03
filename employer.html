@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hitta kandidater — Kaster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #1a3350; --navy-dark: #0f1f32; --navy-light: #2a4a6e; --accent: #4a8fc1; --accent-light: #e8f2fa; --white: #ffffff; --off-white: #f7f8fa; --gray-100: #f0f2f5; --gray-200: #e2e6ec; --gray-400: #9aa5b4; --gray-600: #4a5568; --gray-800: #1a202c; --green: #2d7a4f; --green-light: #e8f5ef; --font-display: 'DM Serif Display', Georgia, serif; --font-body: 'DM Sans', system-ui, sans-serif;
+    }
+    body { font-family: var(--font-body); background: var(--off-white); color: var(--gray-800); -webkit-font-smoothing: antialiased; }
+    .navbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--gray-200); padding: 0 48px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: var(--font-display); font-size: 24px; color: var(--navy-dark); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--gray-600); text-decoration: none; }
+    .btn-nav { background: var(--navy); color: white !important; font-size: 13px; font-weight: 600; padding: 10px 22px; border-radius: 8px; text-decoration: none; }
+
+    .hero { background: var(--navy-dark); padding: 80px 48px 64px; text-align: center; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); background: rgba(74,143,193,0.12); border: 1px solid rgba(74,143,193,0.25); padding: 6px 16px; border-radius: 20px; margin-bottom: 24px; }
+    .hero h1 { font-family: var(--font-display); font-size: 52px; color: white; letter-spacing: -2px; margin-bottom: 16px; line-height: 1.05; }
+    .hero h1 em { font-style: italic; color: #a0c8e8; }
+    .hero-sub { font-size: 17px; color: #7a9ab8; max-width: 480px; margin: 0 auto 40px; line-height: 1.65; font-weight: 300; }
+
+    .search-bar { background: white; border-radius: 12px; padding: 8px 8px 8px 24px; display: flex; align-items: center; gap: 8px; max-width: 680px; margin: 0 auto; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+    .search-input { flex: 1; border: none; outline: none; font-size: 15px; font-family: var(--font-body); color: var(--gray-800); background: transparent; }
+    .search-input::placeholder { color: var(--gray-400); }
+    .search-btn { background: var(--navy-dark); color: white; font-size: 14px; font-weight: 600; padding: 12px 24px; border-radius: 8px; border: none; cursor: pointer; font-family: var(--font-body); white-space: nowrap; }
+
+    .main { max-width: 1200px; margin: 0 auto; padding: 40px 48px; display: grid; grid-template-columns: 260px 1fr; gap: 32px; align-items: flex-start; }
+
+    .filters { background: white; border-radius: 16px; border: 1px solid var(--gray-200); padding: 24px; }
+    .filter-title { font-size: 13px; font-weight: 700; color: var(--navy-dark); margin-bottom: 16px; letter-spacing: 0.5px; }
+    .filter-section { margin-bottom: 24px; }
+    .filter-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    .filter-option { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; cursor: pointer; }
+    .filter-check { width: 18px; height: 18px; border: 1px solid var(--gray-200); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
+    .filter-check.active { background: var(--navy-dark); border-color: var(--navy-dark); color: white; }
+    .filter-text { font-size: 13px; color: var(--gray-600); }
+    .filter-count { font-size: 11px; color: var(--gray-400); margin-left: auto; }
+    .filter-divider { height: 1px; background: var(--gray-100); margin: 20px 0; }
+
+    .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .results-count { font-size: 14px; color: var(--gray-600); }
+    .results-count strong { color: var(--navy-dark); }
+    .sort-select { font-size: 13px; color: var(--gray-600); border: 1px solid var(--gray-200); border-radius: 6px; padding: 6px 12px; background: white; font-family: var(--font-body); outline: none; }
+
+    .candidate-card { background: white; border-radius: 12px; border: 1px solid var(--gray-200); overflow: hidden; margin-bottom: 16px; transition: transform 0.2s, box-shadow 0.2s; }
+    .candidate-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(26,51,80,0.08); }
+    .card-top { display: flex; gap: 16px; align-items: flex-start; padding: 24px 24px 0; }
+    .c-avatar { width: 56px; height: 56px; border-radius: 50%; background: var(--accent-light); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 18px; color: var(--accent); border: 2px solid #c8dff0; }
+    .c-avatar.b { background: #ede8f8; color: #6a4aad; border-color: #d4b8f0; }
+    .c-avatar.g { background: var(--green-light); color: var(--green); border-color: #b8e0c8; }
+    .c-name { font-size: 16px; font-weight: 600; color: var(--navy-dark); margin-bottom: 2px; }
+    .c-role { font-size: 13px; color: var(--gray-600); margin-bottom: 4px; }
+    .c-meta { font-size: 12px; color: var(--gray-400); }
+    .open-badge { display: inline-block; font-size: 10px; background: var(--green-light); color: var(--green); padding: 3px 10px; border-radius: 4px; margin-left: 6px; font-weight: 600; border: 1px solid #b8e0c8; }
+    .card-actions { margin-left: auto; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+    .btn-save { font-size: 12px; color: var(--gray-600); border: 1px solid var(--gray-200); padding: 6px 14px; border-radius: 6px; background: white; cursor: pointer; font-family: var(--font-body); }
+    .btn-contact-card { font-size: 12px; color: white; background: var(--navy-dark); border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-family: var(--font-body); font-weight: 600; }
+    .c-about { font-size: 13px; color: var(--gray-600); line-height: 1.7; padding: 14px 24px; }
+    .c-skills { padding: 0 24px 16px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .c-skill { font-size: 11px; padding: 5px 12px; border-radius: 6px; font-weight: 500; }
+    .c-skill.v { background: var(--navy-dark); color: #a0c8e8; }
+    .c-skill.p { background: var(--gray-100); color: var(--gray-600); border: 1px solid var(--gray-200); }
+    .card-footer { border-top: 1px solid var(--gray-100); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+    .c-refs { font-size: 12px; color: var(--gray-400); }
+    .c-refs strong { color: var(--navy-dark); }
+    .c-exp { font-size: 12px; color: var(--gray-400); }
+    .verify-strip { background: var(--accent-light); border-top: 1px solid #c8dff0; padding: 10px 24px; font-size: 12px; color: var(--accent); font-weight: 600; }
+
+    .locked-overlay { background: var(--gray-100); border: 1px dashed var(--gray-200); border-radius: 12px; padding: 32px; text-align: center; margin-bottom: 16px; }
+    .locked-icon { font-size: 28px; margin-bottom: 12px; }
+    .locked-title { font-size: 16px; font-weight: 600; color: var(--navy-dark); margin-bottom: 8px; }
+    .locked-text { font-size: 14px; color: var(--gray-600); margin-bottom: 20px; line-height: 1.6; }
+    .btn-unlock-employer { background: var(--navy-dark); color: white; font-size: 14px; font-weight: 600; padding: 12px 28px; border-radius: 8px; text-decoration: none; display: inline-block; }
+
+@media (max-width: 768px) {
+  .navbar { padding: 0 20px; height: 56px; }
+  .nav-links { display: none; }
+  .nav-mobile { display: flex; align-items: center; gap: 12px; }
+  .btn-nav-mobile { background: var(--navy); color: white !important; font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 6px; text-decoration: none; }
+  .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--navy-dark); border-radius: 2px; }
+  .hero { padding: 64px 24px 48px; }
+  .hero h1 { font-size: 40px; letter-spacing: -1.5px; }
+  .hero-sub { font-size: 16px; }
+  .hero-actions { flex-direction: column; align-items: center; }
+  .hero-actions a { width: 100%; text-align: center; }
+  .hero-stats { gap: 32px; flex-wrap: wrap; padding-top: 32px; }
+  .hero-stat-num { font-size: 28px; }
+  .section { padding: 64px 24px; }
+  .section-title { font-size: 32px; }
+  .section-sub { font-size: 15px; margin-bottom: 40px; }
+  .steps { grid-template-columns: 1fr; gap: 20px; }
+  .features { grid-template-columns: 1fr; gap: 16px; }
+  .preview-wrap { grid-template-columns: 1fr; gap: 40px; }
+  .for-who { grid-template-columns: 1fr; gap: 20px; }
+  .cta { padding: 64px 24px; }
+  .cta h2 { font-size: 36px; }
+  .cta-btns { flex-direction: column; align-items: center; }
+  .cta-btns a { width: 100%; text-align: center; }
+  .footer { padding: 32px 24px; flex-direction: column; gap: 20px; text-align: center; }
+  .footer-links { justify-content: center; }
+  .page-layout { grid-template-columns: 1fr; }
+  .left-panel { display: none; }
+  .right-panel { display: none; }
+  .pass-header { padding: 24px; flex-direction: column; gap: 16px; }
+  .pass-avatar { width: 64px; height: 64px; font-size: 22px; }
+  .pass-name { font-size: 24px; }
+  .pass-body { padding: 0 24px; }
+  .pass-footer { padding: 16px 24px; flex-direction: column; gap: 12px; align-items: flex-start; }
+  .skill-grid { grid-template-columns: 1fr; }
+  .page { grid-template-columns: 1fr; }
+  .left { display: none; }
+  .right { padding: 48px 32px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-stats-cards { display: none; }
+  .pricing-grid { grid-template-columns: 1fr; gap: 20px; }
+  .pricing-card.featured { transform: scale(1); }
+  .pricing-cards { grid-template-columns: 1fr; }
+  .compare { overflow-x: auto; }
+  .values { grid-template-columns: 1fr; gap: 16px; }
+  .team { grid-template-columns: 1fr; gap: 16px; }
+  .main { grid-template-columns: 1fr; padding: 24px; }
+  .filters { display: none; }
+  .search-bar { margin: 0 24px; }
+  .feed-section { padding: 0; }
+  .pass-meta { gap: 12px; }
+  .exp-top { flex-direction: column; gap: 4px; }
+  .steps-wrap { padding: 0; }
+  .step-row { grid-template-columns: 48px 1fr; gap: 16px; }
+  .faq { padding: 0; }
+  .contact-box { padding: 32px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+  .verify-body { padding: 24px; }
+  .verify-header { padding: 32px 24px; }
+  .pass-footer-right { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .profile-top { flex-wrap: wrap; }
+  .card-actions { flex-direction: row; margin-left: 0; margin-top: 8px; }
+  .card-top { flex-wrap: wrap; }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 32px; }
+  .section-title { font-size: 28px; }
+  .pass-name { font-size: 20px; }
+  .hero-eyebrow { font-size: 10px; padding: 5px 12px; }
+}
+
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="logo">kaster<span>.</span></a>
+    <div class="nav-links">
+      <a href="index.html">Startsida</a>
+      <a href="#">Logga in</a>
+      <a href="signup.html" class="btn-nav">Kom igång</a>
+    </div>
+  
+    <div class="nav-mobile" style="display:none;">
+      <a href="signup.html" class="btn-nav-mobile">Skapa profil</a>
+      <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" style="display:none;position:fixed;top:56px;left:0;right:0;background:white;border-bottom:1px solid #e2e6ec;padding:16px 24px;z-index:99;flex-direction:column;gap:0;">
+      <a href="index.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Startsida</a>
+      <a href="how-it-works.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Hur det fungerar</a>
+      <a href="for-employers.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">För företag</a>
+      <a href="pricing.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Priser</a>
+      <a href="about.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Om oss</a>
+      <a href="login.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Logga in</a>
+      <a href="signup.html" style="display:block;margin-top:12px;background:#1a3350;color:white;text-align:center;padding:14px;border-radius:8px;font-size:15px;font-weight:600;text-decoration:none;">Skapa profil — 99 kr</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-eyebrow">För arbetsgivare</div>
+    <h1>Hitta <em>verifierad</em><br>talang</h1>
+    <p class="hero-sub">Sök bland kandidater med bevisad kompetens — verifierad av riktiga referenser.</p>
+    <div class="search-bar">
+      <input class="search-input" type="text" placeholder="Sök på kompetens, roll eller ort — t.ex. Projektledning, Stockholm">
+      <button class="search-btn">Sök kandidater</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <aside class="filters">
+      <div class="filter-title">Filtrera</div>
+      <div class="filter-section">
+        <div class="filter-label">Verifiering</div>
+        <div class="filter-option"><div class="filter-check active">✓</div><span class="filter-text">Endast verifierade</span><span class="filter-count">284</span></div>
+        <div class="filter-option"><div class="filter-check"></div><span class="filter-text">Alla profiler</span><span class="filter-count">412</span></div>
+      </div>
+      <div class="filter-divider"></div>
+      <div class="filter-section">
+        <div class="filter-label">Tillgänglighet</div>
+        <div class="filter-option"><div class="filter-check active">✓</div><span class="filter-text">Öppen för jobb</span><span class="filter-count">156</span></div>
+        <div class="filter-option"><div class="filter-check"></div><span class="filter-text">Alla</span><span class="filter-count">412</span></div>
+      </div>
+      <div class="filter-divider"></div>
+      <div class="filter-section">
+        <div class="filter-label">Ort</div>
+        <div class="filter-option"><div class="filter-check active">✓</div><span class="filter-text">Stockholm</span><span class="filter-count">142</span></div>
+        <div class="filter-option"><div class="filter-check"></div><span class="filter-text">Göteborg</span><span class="filter-count">89</span></div>
+        <div class="filter-option"><div class="filter-check"></div><span class="filter-text">Malmö</span><span class="filter-count">54</span></div>
+        <div class="filter-option"><div class="filter-check"></div><span class="filter-text">Distans</span><span class="filter-count">127</span></div>
+      </div>
+      <div class="filter-divider"></div>
+      <div class="filter-section">
+        <div class="filter-label">Kompetens</div>
+        <div class="filter-option"><div class="filter-check active">✓</div><span class="filter-text">Projektledning</span><span class="filter-count">98</span></div>
+        <div class="filter-option"><div class="filter-check active">✓</div><span class="filter-text">HR</span><span class="filter-count">76</span></div>
+        <div class="filter-option"><div class="filter-check"></div><span class="filter-text">UX Design</span><span class="filter-count">54</span></div>
+        <div class="filter-option"><div class="filter-check"></div><span class="filter-text">Agile</span><span class="filter-count">43</span></div>
+        <div class="filter-option"><div class="filter-check"></div><span class="filter-text">Generativ AI</span><span class="filter-count">32</span></div>
+      </div>
+    </aside>
+
+    <div class="results">
+      <div class="results-header">
+        <div class="results-count"><strong>284</strong> verifierade kandidater hittades</div>
+        <select class="sort-select"><option>Senast aktiva</option><option>Mest verifierade</option><option>Flest referenser</option></select>
+      </div>
+
+      <div class="candidate-card">
+        <div class="card-top">
+          <div class="c-avatar">NK</div>
+          <div>
+            <div class="c-name">Nataly K. <span class="open-badge">Öppen för jobb</span></div>
+            <div class="c-role">Projektledare & HR-specialist</div>
+            <div class="c-meta">Stockholm · 8 års erfarenhet</div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-save">♡ Spara</button>
+            <button class="btn-contact-card">Kontakta</button>
+          </div>
+        </div>
+        <p class="c-about">Driven ledare med erfarenhet av att leda team på 20–30 personer. Passion för digital transformation och att se människor växa.</p>
+        <div class="c-skills">
+          <span class="c-skill v">Projektledning ✓</span>
+          <span class="c-skill v">HR-administration ✓</span>
+          <span class="c-skill v">Teamledning ✓</span>
+          <span class="c-skill v">Generativ AI ✓</span>
+          <span class="c-skill p">Agile ⏳</span>
+        </div>
+        <div class="card-footer">
+          <span class="c-refs"><strong>3</strong> verifierade referenser</span>
+          <span class="c-exp">Tillgänglig omgående</span>
+        </div>
+        <div class="verify-strip">★ Toppkandidat — alla nyckelkompetenser verifierade</div>
+      </div>
+
+      <div class="candidate-card">
+        <div class="card-top">
+          <div class="c-avatar b">ML</div>
+          <div>
+            <div class="c-name">Marcus L.</div>
+            <div class="c-role">UX Designer & Produktledare</div>
+            <div class="c-meta">Göteborg · 5 års erfarenhet</div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-save">♡ Spara</button>
+            <button class="btn-contact-card">Kontakta</button>
+          </div>
+        </div>
+        <p class="c-about">Skapar digitala upplevelser som faktiskt fungerar. Specialiserad på B2B SaaS och design systems.</p>
+        <div class="c-skills">
+          <span class="c-skill v">UX Design ✓</span>
+          <span class="c-skill v">Figma ✓</span>
+          <span class="c-skill p">Produktstrategi ⏳</span>
+        </div>
+        <div class="card-footer">
+          <span class="c-refs"><strong>2</strong> verifierade referenser</span>
+          <span class="c-exp">Tillgänglig inom 1 mån</span>
+        </div>
+      </div>
+
+      <div class="candidate-card">
+        <div class="card-top">
+          <div class="c-avatar g">SA</div>
+          <div>
+            <div class="c-name">Sara A. <span class="open-badge">Öppen för jobb</span></div>
+            <div class="c-role">HR-chef & Organisationsutvecklare</div>
+            <div class="c-meta">Stockholm · 10 års erfarenhet</div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-save">♡ Spara</button>
+            <button class="btn-contact-card">Kontakta</button>
+          </div>
+        </div>
+        <p class="c-about">Erfaren HR-chef med fokus på organisationsutveckling och ledarskapscoaching. Specialiserad på tillväxtbolag.</p>
+        <div class="c-skills">
+          <span class="c-skill v">HR-strategi ✓</span>
+          <span class="c-skill v">Rekrytering ✓</span>
+          <span class="c-skill v">Ledarskapscoaching ✓</span>
+          <span class="c-skill p">Employer Branding ⏳</span>
+        </div>
+        <div class="card-footer">
+          <span class="c-refs"><strong>4</strong> verifierade referenser</span>
+          <span class="c-exp">Tillgänglig omgående</span>
+        </div>
+        <div class="verify-strip">★ Toppkandidat — alla nyckelkompetenser verifierade</div>
+      </div>
+
+      <div class="locked-overlay">
+        <div class="locked-icon">🔒</div>
+        <div class="locked-title">268 fler kandidater väntar</div>
+        <p class="locked-text">Uppgradera till ett arbetsgivarkonto för att se alla verifierade kandidater, kontakta dem direkt och spara favoriter.</p>
+        <a href="signup.html" class="btn-unlock-employer">Uppgradera — 499 kr/mån</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Show hamburger on mobile
+    function checkMobile() {
+      const isMobile = window.innerWidth <= 768;
+      const navLinks = document.querySelector('.nav-links');
+      const navMobile = document.querySelector('.nav-mobile');
+      if (navLinks) navLinks.style.display = isMobile ? 'none' : 'flex';
+      if (navMobile) navMobile.style.display = isMobile ? 'flex' : 'none';
+    }
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const isOpen = menu.style.display === 'flex';
+      menu.style.display = isOpen ? 'none' : 'flex';
+    }
+    window.addEventListener('resize', checkMobile);
+    checkMobile();
+  </script>
+</body>
+</html>

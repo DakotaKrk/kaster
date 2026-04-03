@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Om oss — Kaster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --navy: #1a3350; --navy-dark: #0f1f32; --navy-light: #2a4a6e; --accent: #4a8fc1; --accent-light: #e8f2fa; --off-white: #f7f8fa; --gray-100: #f0f2f5; --gray-200: #e2e6ec; --gray-400: #9aa5b4; --gray-600: #4a5568; --gray-800: #1a202c; --font-display: 'DM Serif Display', Georgia, serif; --font-body: 'DM Sans', system-ui, sans-serif; }
+    body { font-family: var(--font-body); background: var(--off-white); color: var(--gray-800); -webkit-font-smoothing: antialiased; }
+    .navbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--gray-200); padding: 0 48px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: var(--font-display); font-size: 24px; color: var(--navy-dark); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--gray-600); text-decoration: none; }
+    .btn-nav { background: var(--navy) !important; color: white !important; font-size: 13px; font-weight: 600; padding: 10px 22px; border-radius: 8px; text-decoration: none; }
+    .hero { background: var(--navy-dark); padding: 96px 48px; text-align: center; }
+    .hero h1 { font-family: var(--font-display); font-size: 56px; color: white; letter-spacing: -2px; margin-bottom: 20px; line-height: 1.05; }
+    .hero h1 em { font-style: italic; color: #a0c8e8; }
+    .hero-sub { font-size: 19px; color: #7a9ab8; max-width: 560px; margin: 0 auto; line-height: 1.65; font-weight: 300; font-family: var(--font-display); font-style: italic; }
+    .section { padding: 96px 48px; }
+    .section-alt { background: white; }
+    .story { max-width: 720px; margin: 0 auto; }
+    .story-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+    .story-title { font-family: var(--font-display); font-size: 44px; color: var(--navy-dark); letter-spacing: -1px; margin-bottom: 32px; line-height: 1.1; }
+    .story-text { font-size: 17px; color: var(--gray-600); line-height: 1.8; margin-bottom: 24px; font-weight: 300; }
+    .story-text strong { color: var(--navy-dark); font-weight: 600; }
+    .values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 960px; margin: 0 auto; }
+    .value-card { padding: 36px; background: white; border-radius: 16px; border: 1px solid var(--gray-200); }
+    .value-icon { font-size: 32px; margin-bottom: 16px; }
+    .value-title { font-family: var(--font-display); font-size: 22px; color: var(--navy-dark); margin-bottom: 10px; }
+    .value-text { font-size: 14px; color: var(--gray-600); line-height: 1.65; }
+    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; text-align: center; }
+    .section-title { font-family: var(--font-display); font-size: 44px; color: var(--navy-dark); text-align: center; letter-spacing: -1px; margin-bottom: 16px; line-height: 1.1; }
+    .section-sub { font-size: 17px; color: var(--gray-600); text-align: center; max-width: 520px; margin: 0 auto 64px; line-height: 1.65; font-weight: 300; }
+    .team { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 960px; margin: 0 auto; }
+    .team-card { background: white; border-radius: 16px; border: 1px solid var(--gray-200); padding: 32px; text-align: center; }
+    .team-avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 26px; color: var(--accent); border: 3px solid #c8dff0; margin: 0 auto 16px; }
+    .team-name { font-size: 18px; font-weight: 600; color: var(--navy-dark); margin-bottom: 4px; }
+    .team-role { font-size: 13px; color: var(--accent); margin-bottom: 12px; font-weight: 500; }
+    .team-bio { font-size: 13px; color: var(--gray-600); line-height: 1.6; }
+    .contact-section { max-width: 600px; margin: 0 auto; text-align: center; }
+    .contact-box { background: white; border-radius: 20px; border: 1px solid var(--gray-200); padding: 48px; }
+    .contact-title { font-family: var(--font-display); font-size: 32px; color: var(--navy-dark); margin-bottom: 12px; }
+    .contact-text { font-size: 16px; color: var(--gray-600); margin-bottom: 32px; line-height: 1.6; }
+    .contact-email { font-family: var(--font-display); font-size: 24px; color: var(--accent); text-decoration: none; }
+    .cta { background: var(--navy-dark); padding: 96px 48px; text-align: center; }
+    .cta h2 { font-family: var(--font-display); font-size: 48px; color: white; letter-spacing: -1.5px; margin-bottom: 16px; }
+    .cta h2 em { font-style: italic; color: #a0c8e8; }
+    .cta p { font-size: 17px; color: #5a7a98; margin-bottom: 40px; }
+    .btn-primary { background: var(--accent); color: white; font-size: 15px; font-weight: 600; padding: 14px 32px; border-radius: 8px; text-decoration: none; display: inline-block; }
+    .footer { background: #0a1628; padding: 48px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-logo { font-family: var(--font-display); font-size: 22px; color: #3a5a78; }
+    .footer-logo span { color: #2a4a68; }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-links a { font-size: 13px; color: #2a4a68; text-decoration: none; }
+    .footer-text { font-size: 13px; color: #2a4a68; }
+
+@media (max-width: 768px) {
+  .navbar { padding: 0 20px; height: 56px; }
+  .nav-links { display: none; }
+  .nav-mobile { display: flex; align-items: center; gap: 12px; }
+  .btn-nav-mobile { background: var(--navy); color: white !important; font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 6px; text-decoration: none; }
+  .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--navy-dark); border-radius: 2px; }
+  .hero { padding: 64px 24px 48px; }
+  .hero h1 { font-size: 40px; letter-spacing: -1.5px; }
+  .hero-sub { font-size: 16px; }
+  .hero-actions { flex-direction: column; align-items: center; }
+  .hero-actions a { width: 100%; text-align: center; }
+  .hero-stats { gap: 32px; flex-wrap: wrap; padding-top: 32px; }
+  .hero-stat-num { font-size: 28px; }
+  .section { padding: 64px 24px; }
+  .section-title { font-size: 32px; }
+  .section-sub { font-size: 15px; margin-bottom: 40px; }
+  .steps { grid-template-columns: 1fr; gap: 20px; }
+  .features { grid-template-columns: 1fr; gap: 16px; }
+  .preview-wrap { grid-template-columns: 1fr; gap: 40px; }
+  .for-who { grid-template-columns: 1fr; gap: 20px; }
+  .cta { padding: 64px 24px; }
+  .cta h2 { font-size: 36px; }
+  .cta-btns { flex-direction: column; align-items: center; }
+  .cta-btns a { width: 100%; text-align: center; }
+  .footer { padding: 32px 24px; flex-direction: column; gap: 20px; text-align: center; }
+  .footer-links { justify-content: center; }
+  .page-layout { grid-template-columns: 1fr; }
+  .left-panel { display: none; }
+  .right-panel { display: none; }
+  .pass-header { padding: 24px; flex-direction: column; gap: 16px; }
+  .pass-avatar { width: 64px; height: 64px; font-size: 22px; }
+  .pass-name { font-size: 24px; }
+  .pass-body { padding: 0 24px; }
+  .pass-footer { padding: 16px 24px; flex-direction: column; gap: 12px; align-items: flex-start; }
+  .skill-grid { grid-template-columns: 1fr; }
+  .page { grid-template-columns: 1fr; }
+  .left { display: none; }
+  .right { padding: 48px 32px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-stats-cards { display: none; }
+  .pricing-grid { grid-template-columns: 1fr; gap: 20px; }
+  .pricing-card.featured { transform: scale(1); }
+  .pricing-cards { grid-template-columns: 1fr; }
+  .compare { overflow-x: auto; }
+  .values { grid-template-columns: 1fr; gap: 16px; }
+  .team { grid-template-columns: 1fr; gap: 16px; }
+  .main { grid-template-columns: 1fr; padding: 24px; }
+  .filters { display: none; }
+  .search-bar { margin: 0 24px; }
+  .feed-section { padding: 0; }
+  .pass-meta { gap: 12px; }
+  .exp-top { flex-direction: column; gap: 4px; }
+  .steps-wrap { padding: 0; }
+  .step-row { grid-template-columns: 48px 1fr; gap: 16px; }
+  .faq { padding: 0; }
+  .contact-box { padding: 32px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+  .verify-body { padding: 24px; }
+  .verify-header { padding: 32px 24px; }
+  .pass-footer-right { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .profile-top { flex-wrap: wrap; }
+  .card-actions { flex-direction: row; margin-left: 0; margin-top: 8px; }
+  .card-top { flex-wrap: wrap; }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 32px; }
+  .section-title { font-size: 28px; }
+  .pass-name { font-size: 20px; }
+  .hero-eyebrow { font-size: 10px; padding: 5px 12px; }
+}
+
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="logo">kaster<span>.</span></a>
+    <div class="nav-links">
+      <a href="how-it-works.html">Hur det fungerar</a>
+      <a href="for-employers.html">För företag</a>
+      <a href="pricing.html">Priser</a>
+      <a href="login.html">Logga in</a>
+      <a href="signup.html" class="btn-nav">Skapa profil</a>
+    </div>
+  
+    <div class="nav-mobile" style="display:none;">
+      <a href="signup.html" class="btn-nav-mobile">Skapa profil</a>
+      <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" style="display:none;position:fixed;top:56px;left:0;right:0;background:white;border-bottom:1px solid #e2e6ec;padding:16px 24px;z-index:99;flex-direction:column;gap:0;">
+      <a href="index.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Startsida</a>
+      <a href="how-it-works.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Hur det fungerar</a>
+      <a href="for-employers.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">För företag</a>
+      <a href="pricing.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Priser</a>
+      <a href="about.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Om oss</a>
+      <a href="login.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Logga in</a>
+      <a href="signup.html" style="display:block;margin-top:12px;background:#1a3350;color:white;text-align:center;padding:14px;border-radius:8px;font-size:15px;font-weight:600;text-decoration:none;">Skapa profil — 99 kr</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <h1>Vi bygger <em>förtroende</em><br>i rekryteringen</h1>
+    <p class="hero-sub">"Alla kan skriva vad de vill på ett CV. Vi skapade Kaster för att ändra på det."</p>
+  </div>
+
+  <section class="section section-alt">
+    <div class="story">
+      <p class="story-label">Vår historia</p>
+      <h2 class="story-title">Varför vi skapade Kaster</h2>
+      <p class="story-text">Efter år inom rekrytering och HR insåg vi ett grundläggande problem: <strong>ingen kan egentligen veta om ett CV stämmer.</strong> Kandidater kan skriva vad de vill, och arbetsgivare har inget enkelt sätt att verifiera det utan tidskrävande referenstagning.</p>
+      <p class="story-text">Samtidigt är referenstagning en process som ofta sker i slutet av en rekryteringsprocess — när arbetsgivaren redan bestämt sig. Det är bakvänt. Vi ville <strong>vända på det.</strong></p>
+      <p class="story-text">Tanken är enkel: låt kandidaten ta sina referenser proaktivt, en gång, och äga dem för alltid. Ett digitalt CV-pass som följer med hela karriären — bevisat, inte påstått.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="section-label">Våra värderingar</p>
+    <h2 class="section-title">Det vi tror på</h2>
+    <p class="section-sub">Tre principer som styr allt vi bygger.</p>
+    <div class="values">
+      <div class="value-card">
+        <div class="value-icon">🔍</div>
+        <h3 class="value-title">Äkthet</h3>
+        <p class="value-text">Varje verifiering ska komma från en riktig människa som faktiskt jobbat med kandidaten. Inga algoritmer, ingen AI — bara äkta mänskliga bekräftelser.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🔒</div>
+        <h3 class="value-title">Integritet</h3>
+        <p class="value-text">Din data är din. Vi säljer den aldrig, delar den aldrig utan ditt godkännande och låter dig radera allt när som helst. GDPR är inte bara ett krav — det är en princip.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">⚖️</div>
+        <h3 class="value-title">Rättvisa</h3>
+        <p class="value-text">Alla ska kunna visa vad de verkligen kan — oavsett var de gick i skolan eller vem de känner. Kompetens ska tala för sig självt.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <p class="section-label">Teamet</p>
+    <h2 class="section-title">Människorna bakom Kaster</h2>
+    <p class="section-sub">Vi är ett litet team med stor passion för ärlighet och transparens i arbetslivet.</p>
+    <div class="team">
+      <div class="team-card">
+        <div class="team-avatar">NK</div>
+        <div class="team-name">Nataly K.</div>
+        <div class="team-role">Grundare & VD</div>
+        <p class="team-bio">8 år som franchisetagare och verksamhetschef. Tröttnade på att inte kunna lita på CV:n och bestämde sig för att göra något åt saken.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="background:#ede8f8;color:#6a4aad;border-color:#d4b8f0">AL</div>
+        <div class="team-name">Alex L.</div>
+        <div class="team-role">Teknisk grundare</div>
+        <p class="team-bio">Fullstack-utvecklare med bakgrund inom fintech. Brinner för att bygga system som skapar förtroende.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="background:#e8f5ef;color:#2d7a4f;border-color:#b8e0c8">SB</div>
+        <div class="team-name">Sara B.</div>
+        <div class="team-role">Head of Product</div>
+        <p class="team-bio">UX-designer och produktstrateg. Tidigare Spotify. Säkerställer att Kaster är enkelt nog för vem som helst att använda.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="contact-section">
+      <p class="section-label">Kontakt</p>
+      <div class="contact-box">
+        <h2 class="contact-title">Hör av dig</h2>
+        <p class="contact-text">Frågor, feedback eller vill du samarbeta? Vi svarar alltid inom en arbetsdag.</p>
+        <a href="mailto:hej@kaster.io" class="contact-email">hej@kaster.io</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2>Redo att testa<br><em>Kaster?</em></h2>
+    <p>Skapa ditt verifierade CV-pass idag.</p>
+    <a href="signup.html" class="btn-primary">Kom igång — 99 kr</a>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-logo">kaster<span>.</span></div>
+    <div class="footer-links">
+      <a href="how-it-works.html">Hur det fungerar</a>
+      <a href="for-employers.html">För företag</a>
+      <a href="pricing.html">Priser</a>
+      <a href="about.html">Om oss</a>
+    </div>
+    <div class="footer-text">© 2024 Kaster. Alla rättigheter förbehållna.</div>
+  </footer>
+
+  <script>
+    // Show hamburger on mobile
+    function checkMobile() {
+      const isMobile = window.innerWidth <= 768;
+      const navLinks = document.querySelector('.nav-links');
+      const navMobile = document.querySelector('.nav-mobile');
+      if (navLinks) navLinks.style.display = isMobile ? 'none' : 'flex';
+      if (navMobile) navMobile.style.display = isMobile ? 'flex' : 'none';
+    }
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const isOpen = menu.style.display === 'flex';
+      menu.style.display = isOpen ? 'none' : 'flex';
+    }
+    window.addEventListener('resize', checkMobile);
+    checkMobile();
+  </script>
+</body>
+</html>

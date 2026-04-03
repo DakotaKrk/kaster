@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nataly K. — Kaster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #1a3350; --navy-dark: #0f1f32; --navy-light: #2a4a6e; --accent: #4a8fc1; --accent-light: #e8f2fa; --white: #ffffff; --off-white: #f7f8fa; --gray-100: #f0f2f5; --gray-200: #e2e6ec; --gray-400: #9aa5b4; --gray-600: #4a5568; --gray-800: #1a202c; --green: #2d7a4f; --green-light: #e8f5ef; --font-display: 'DM Serif Display', Georgia, serif; --font-body: 'DM Sans', system-ui, sans-serif;
+    }
+    body { font-family: var(--font-body); background: var(--off-white); color: var(--gray-800); -webkit-font-smoothing: antialiased; }
+    .navbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--gray-200); padding: 0 48px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: var(--font-display); font-size: 24px; color: var(--navy-dark); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--gray-600); text-decoration: none; }
+    .btn-nav { background: var(--navy); color: white !important; font-size: 13px; font-weight: 600; padding: 10px 22px; border-radius: 8px; text-decoration: none; }
+
+    .page-layout { display: grid; grid-template-columns: 240px 1fr 260px; gap: 24px; max-width: 1200px; margin: 32px auto; padding: 0 24px; align-items: flex-start; }
+
+    /* VÄNSTER PANEL */
+    .left-panel { display: flex; flex-direction: column; gap: 16px; }
+    .left-card { background: white; border-radius: 16px; border: 1px solid var(--gray-200); padding: 24px; text-align: center; }
+    .left-avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 26px; color: var(--accent); border: 3px solid #c8dff0; margin: 0 auto 14px; }
+    .left-name { font-size: 17px; font-weight: 600; color: var(--navy-dark); margin-bottom: 4px; }
+    .left-title { font-size: 12px; color: var(--gray-600); margin-bottom: 4px; line-height: 1.4; }
+    .left-location { font-size: 12px; color: var(--gray-400); margin-bottom: 14px; }
+    .open-badge { display: inline-block; font-size: 10px; background: var(--green-light); color: var(--green); padding: 4px 12px; border-radius: 4px; font-weight: 600; border: 1px solid #b8e0c8; }
+    .left-section-title { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; text-align: left; }
+    .strength-bar-wrap { background: var(--gray-100); border-radius: 4px; height: 8px; margin-bottom: 8px; overflow: hidden; }
+    .strength-bar { background: var(--navy-dark); height: 100%; width: 80%; border-radius: 4px; }
+    .strength-text { font-size: 13px; font-weight: 600; color: var(--navy-dark); margin-bottom: 4px; text-align: left; }
+    .strength-tip { font-size: 11px; color: var(--gray-400); line-height: 1.5; text-align: left; }
+    .stat-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; text-align: left; }
+    .stat-icon { font-size: 16px; }
+    .stat-text { font-size: 13px; color: var(--gray-600); }
+
+    /* PASS */
+    .pass-wrapper { background: transparent; padding: 0; }
+    .pass { background: white; border-radius: 4px; border: 1px solid var(--gray-200); overflow: hidden; box-shadow: 0 4px 20px rgba(26,51,80,0.06); }
+    .pass-header { background: var(--navy-dark); padding: 36px 40px; display: flex; gap: 24px; align-items: flex-start; }
+    .pass-avatar { width: 88px; height: 88px; border-radius: 8px; background: var(--navy-light); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 28px; color: #a0c8e8; border: 2px solid rgba(74,143,193,0.4); }
+    .pass-name { font-family: var(--font-display); font-size: 32px; font-weight: 400; color: white; letter-spacing: -0.5px; margin-bottom: 4px; }
+    .pass-title { font-size: 14px; color: #7a9ab8; margin-bottom: 12px; }
+    .pass-meta { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 14px; }
+    .pass-meta span { font-size: 12px; color: #5a7a98; }
+    .pass-meta strong { color: #a0c8e8; margin-right: 4px; }
+    .pass-badge { display: inline-block; background: var(--accent); color: white; font-size: 11px; padding: 4px 14px; border-radius: 20px; font-weight: 600; }
+    .pass-body { padding: 0 40px; }
+    .pass-section { padding: 28px 0; border-bottom: 1px solid var(--gray-100); }
+    .pass-section:last-child { border-bottom: none; }
+    .pass-section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .pass-section-title { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); font-weight: 700; white-space: nowrap; }
+    .pass-section-line { flex: 1; height: 1px; background: var(--gray-100); }
+    .pass-text { font-size: 14px; color: var(--gray-600); line-height: 1.7; margin-bottom: 16px; }
+    .seeking { display: flex; gap: 8px; flex-wrap: wrap; }
+    .seek-tag { font-size: 12px; background: var(--accent-light); color: var(--accent); border: 1px solid #c8dff0; padding: 5px 14px; border-radius: 6px; font-weight: 500; }
+    .exp-item { margin-bottom: 20px; }
+    .exp-item:last-child { margin-bottom: 0; }
+    .exp-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2px; }
+    .exp-role { font-size: 15px; font-weight: 600; color: var(--navy-dark); }
+    .exp-date { font-size: 12px; color: var(--gray-400); }
+    .exp-company { font-size: 13px; color: var(--accent); margin-bottom: 6px; font-weight: 500; }
+    .exp-desc { font-size: 13px; color: var(--gray-600); line-height: 1.65; margin-bottom: 8px; }
+    .exp-verified { display: inline-block; font-size: 10px; background: var(--navy-dark); color: #a0c8e8; padding: 3px 10px; border-radius: 4px; font-weight: 600; }
+    .skill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .skill-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border: 1px solid var(--gray-100); border-radius: 8px; }
+    .skill-name { font-size: 13px; font-weight: 600; color: var(--navy-dark); }
+    .skill-years { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+    .skill-status { font-size: 10px; padding: 4px 10px; border-radius: 4px; font-weight: 600; }
+    .skill-status.verified { background: var(--navy-dark); color: #a0c8e8; }
+    .skill-status.pending { background: var(--accent-light); color: var(--accent); border: 1px solid #c8dff0; }
+    .edu-item { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+    .edu-item:last-child { margin-bottom: 0; }
+    .edu-name { font-size: 14px; font-weight: 600; color: var(--navy-dark); }
+    .edu-school { font-size: 13px; color: var(--gray-600); margin-top: 2px; }
+    .edu-date { font-size: 12px; color: var(--gray-400); }
+    .ref-item { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 24px; }
+    .ref-item:last-child { margin-bottom: 0; }
+    .ref-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--accent); flex-shrink: 0; border: 2px solid #c8dff0; }
+    .ref-name { font-size: 14px; font-weight: 600; color: var(--navy-dark); margin-bottom: 2px; }
+    .ref-role { font-size: 12px; color: var(--gray-400); margin-bottom: 8px; }
+    .ref-quote { font-size: 13px; color: var(--gray-600); font-style: italic; line-height: 1.65; border-left: 3px solid var(--accent-light); padding-left: 12px; }
+    .pass-footer { background: var(--off-white); border-top: 1px solid var(--gray-200); padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; }
+    .pass-id { font-size: 11px; color: var(--gray-400); letter-spacing: 1px; }
+    .pass-footer-right { display: flex; align-items: center; gap: 12px; }
+    .contact-locked { font-size: 12px; color: var(--gray-400); }
+    .btn-unlock { background: var(--navy-dark); color: white; font-size: 12px; padding: 8px 18px; border-radius: 6px; font-weight: 600; text-decoration: none; }
+
+    /* HÖGER PANEL */
+    .right-panel { display: flex; flex-direction: column; gap: 16px; }
+    .right-card { background: white; border-radius: 16px; border: 1px solid var(--gray-200); padding: 24px; }
+    .right-card-title { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .similar-profile { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; cursor: pointer; }
+    .similar-profile:last-child { margin-bottom: 0; }
+    .sim-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 15px; color: var(--accent); flex-shrink: 0; border: 2px solid #c8dff0; }
+    .sim-avatar.green { background: var(--green-light); color: var(--green); border-color: #b8e0c8; }
+    .sim-avatar.orange { background: #fff3e0; color: #e65100; border-color: #ffd0a0; }
+    .sim-name { font-size: 13px; font-weight: 600; color: var(--navy-dark); }
+    .sim-role { font-size: 11px; color: var(--gray-400); margin-top: 1px; }
+    .upgrade-card { background: var(--navy-dark); border: none; }
+    .upgrade-title { font-family: var(--font-display); font-size: 18px; color: white; margin-bottom: 8px; }
+    .upgrade-text { font-size: 13px; color: #7a9ab8; line-height: 1.55; margin-bottom: 20px; }
+    .btn-upgrade { display: block; text-align: center; background: var(--accent); color: white; font-size: 13px; font-weight: 600; padding: 11px; border-radius: 8px; text-decoration: none; }
+
+@media (max-width: 768px) {
+  .navbar { padding: 0 20px; height: 56px; }
+  .nav-links { display: none; }
+  .nav-mobile { display: flex; align-items: center; gap: 12px; }
+  .btn-nav-mobile { background: var(--navy); color: white !important; font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 6px; text-decoration: none; }
+  .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--navy-dark); border-radius: 2px; }
+  .hero { padding: 64px 24px 48px; }
+  .hero h1 { font-size: 40px; letter-spacing: -1.5px; }
+  .hero-sub { font-size: 16px; }
+  .hero-actions { flex-direction: column; align-items: center; }
+  .hero-actions a { width: 100%; text-align: center; }
+  .hero-stats { gap: 32px; flex-wrap: wrap; padding-top: 32px; }
+  .hero-stat-num { font-size: 28px; }
+  .section { padding: 64px 24px; }
+  .section-title { font-size: 32px; }
+  .section-sub { font-size: 15px; margin-bottom: 40px; }
+  .steps { grid-template-columns: 1fr; gap: 20px; }
+  .features { grid-template-columns: 1fr; gap: 16px; }
+  .preview-wrap { grid-template-columns: 1fr; gap: 40px; }
+  .for-who { grid-template-columns: 1fr; gap: 20px; }
+  .cta { padding: 64px 24px; }
+  .cta h2 { font-size: 36px; }
+  .cta-btns { flex-direction: column; align-items: center; }
+  .cta-btns a { width: 100%; text-align: center; }
+  .footer { padding: 32px 24px; flex-direction: column; gap: 20px; text-align: center; }
+  .footer-links { justify-content: center; }
+  .page-layout { grid-template-columns: 1fr; }
+  .left-panel { display: none; }
+  .right-panel { display: none; }
+  .pass-header { padding: 24px; flex-direction: column; gap: 16px; }
+  .pass-avatar { width: 64px; height: 64px; font-size: 22px; }
+  .pass-name { font-size: 24px; }
+  .pass-body { padding: 0 24px; }
+  .pass-footer { padding: 16px 24px; flex-direction: column; gap: 12px; align-items: flex-start; }
+  .skill-grid { grid-template-columns: 1fr; }
+  .page { grid-template-columns: 1fr; }
+  .left { display: none; }
+  .right { padding: 48px 32px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-stats-cards { display: none; }
+  .pricing-grid { grid-template-columns: 1fr; gap: 20px; }
+  .pricing-card.featured { transform: scale(1); }
+  .pricing-cards { grid-template-columns: 1fr; }
+  .compare { overflow-x: auto; }
+  .values { grid-template-columns: 1fr; gap: 16px; }
+  .team { grid-template-columns: 1fr; gap: 16px; }
+  .main { grid-template-columns: 1fr; padding: 24px; }
+  .filters { display: none; }
+  .search-bar { margin: 0 24px; }
+  .feed-section { padding: 0; }
+  .pass-meta { gap: 12px; }
+  .exp-top { flex-direction: column; gap: 4px; }
+  .steps-wrap { padding: 0; }
+  .step-row { grid-template-columns: 48px 1fr; gap: 16px; }
+  .faq { padding: 0; }
+  .contact-box { padding: 32px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+  .verify-body { padding: 24px; }
+  .verify-header { padding: 32px 24px; }
+  .pass-footer-right { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .profile-top { flex-wrap: wrap; }
+  .card-actions { flex-direction: row; margin-left: 0; margin-top: 8px; }
+  .card-top { flex-wrap: wrap; }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 32px; }
+  .section-title { font-size: 28px; }
+  .pass-name { font-size: 20px; }
+  .hero-eyebrow { font-size: 10px; padding: 5px 12px; }
+}
+
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="logo">kaster<span>.</span></a>
+    <div class="nav-links">
+      <a href="index.html">Tillbaka</a>
+      <a href="employer.html">För företag</a>
+      <a href="signup.html" class="btn-nav">Skapa profil</a>
+    </div>
+  
+    <div class="nav-mobile" style="display:none;">
+      <a href="signup.html" class="btn-nav-mobile">Skapa profil</a>
+      <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" style="display:none;position:fixed;top:56px;left:0;right:0;background:white;border-bottom:1px solid #e2e6ec;padding:16px 24px;z-index:99;flex-direction:column;gap:0;">
+      <a href="index.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Startsida</a>
+      <a href="how-it-works.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Hur det fungerar</a>
+      <a href="for-employers.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">För företag</a>
+      <a href="pricing.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Priser</a>
+      <a href="about.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Om oss</a>
+      <a href="login.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Logga in</a>
+      <a href="signup.html" style="display:block;margin-top:12px;background:#1a3350;color:white;text-align:center;padding:14px;border-radius:8px;font-size:15px;font-weight:600;text-decoration:none;">Skapa profil — 99 kr</a>
+    </div>
+  </nav>
+
+  <div class="page-layout">
+
+    <!-- VÄNSTER -->
+    <aside class="left-panel">
+      <div class="left-card">
+        <div class="left-avatar">NK</div>
+        <div class="left-name">Nataly K.</div>
+        <div class="left-title">Projektledare & HR-specialist</div>
+        <div class="left-location">Stockholm, Sverige</div>
+        <div class="open-badge">Öppen för jobb</div>
+      </div>
+      <div class="left-card">
+        <div class="left-section-title">Profilstyrka</div>
+        <div class="strength-bar-wrap"><div class="strength-bar"></div></div>
+        <div class="strength-text">80% komplett</div>
+        <div class="strength-tip">Lägg till fler kompetenser för att öka din synlighet</div>
+      </div>
+      <div class="left-card">
+        <div class="left-section-title">Den senaste veckan</div>
+        <div class="stat-row"><span class="stat-icon">👁</span><span class="stat-text"><strong>23</strong> profilvisningar</span></div>
+        <div class="stat-row"><span class="stat-icon">🔍</span><span class="stat-text">Dök upp i <strong>12</strong> sökningar</span></div>
+      </div>
+    </aside>
+
+    <!-- MITTEN -->
+    <div class="pass-wrapper">
+      <div class="pass">
+        <div class="pass-header">
+          <div class="pass-avatar">NK</div>
+          <div class="pass-identity">
+            <h1 class="pass-name">Nataly K.</h1>
+            <p class="pass-title">Projektledare & HR-specialist · Stockholm</p>
+            <div class="pass-meta">
+              <span><strong>Erfarenhet</strong> 8 år</span>
+              <span><strong>Tillgänglig</strong> Omgående</span>
+              <span><strong>Söker</strong> Heltid</span>
+            </div>
+            <div class="pass-badge">✓ Verifierad profil — 3 referenser</div>
+          </div>
+        </div>
+        <div class="pass-body">
+
+          <div class="pass-section">
+            <div class="pass-section-header"><span class="pass-section-title">Om mig</span><div class="pass-section-line"></div></div>
+            <p class="pass-text">Driven ledare med erfarenhet av att leda team på 20–30 personer inom franchise och detaljhandel. Passion för digital transformation, HR och att se både människor och organisationer växa och blomstra.</p>
+            <div class="seeking">
+              <span class="seek-tag">Projektledning</span>
+              <span class="seek-tag">Digital transformation</span>
+              <span class="seek-tag">HR-ledning</span>
+              <span class="seek-tag">Heltid</span>
+            </div>
+          </div>
+
+          <div class="pass-section">
+            <div class="pass-section-header"><span class="pass-section-title">Erfarenhet</span><div class="pass-section-line"></div></div>
+            <div class="exp-item">
+              <div class="exp-top"><span class="exp-role">Franchisetagare & Verksamhetschef</span><span class="exp-date">2016 — 2024</span></div>
+              <div class="exp-company">Coop Sverige</div>
+              <p class="exp-desc">Ansvarade för hela verksamheten inkl. budget, personal och kundupplevelse. Ledde ett team på 20–30 medarbetare och drev digitala förändringsinitiativ.</p>
+              <span class="exp-verified">✓ Verifierad av 2 referenser</span>
+            </div>
+          </div>
+
+          <div class="pass-section">
+            <div class="pass-section-header"><span class="pass-section-title">Kompetenser</span><div class="pass-section-line"></div></div>
+            <div class="skill-grid">
+              <div class="skill-item"><div><div class="skill-name">Projektledning</div><div class="skill-years">6 år</div></div><span class="skill-status verified">✓ Verifierad</span></div>
+              <div class="skill-item"><div><div class="skill-name">HR-administration</div><div class="skill-years">8 år</div></div><span class="skill-status verified">✓ Verifierad</span></div>
+              <div class="skill-item"><div><div class="skill-name">Teamledning</div><div class="skill-years">8 år</div></div><span class="skill-status verified">✓ Verifierad</span></div>
+              <div class="skill-item"><div><div class="skill-name">Generativ AI</div><div class="skill-years">1 år</div></div><span class="skill-status verified">✓ Verifierad</span></div>
+              <div class="skill-item"><div><div class="skill-name">Agile</div><div class="skill-years">2 år</div></div><span class="skill-status pending">⏳ Väntar</span></div>
+              <div class="skill-item"><div><div class="skill-name">Power Platform</div><div class="skill-years">1 år</div></div><span class="skill-status pending">⏳ Väntar</span></div>
+            </div>
+          </div>
+
+          <div class="pass-section">
+            <div class="pass-section-header"><span class="pass-section-title">Utbildning</span><div class="pass-section-line"></div></div>
+            <div class="edu-item"><div><div class="edu-name">Generativ AI — AI-körkort</div><div class="edu-school">Tucs Yrkeshögskola</div></div><div class="edu-date">2024</div></div>
+            <div class="edu-item"><div><div class="edu-name">Digital Analys</div><div class="edu-school">Mediainstitutet</div></div><div class="edu-date">2024</div></div>
+          </div>
+
+          <div class="pass-section">
+            <div class="pass-section-header"><span class="pass-section-title">Verifierade referenser</span><div class="pass-section-line"></div></div>
+            <div class="ref-item">
+              <div class="ref-avatar">AJ</div>
+              <div><div class="ref-name">Anna Johansson</div><div class="ref-role">Regionchef · Coop Sverige</div><p class="ref-quote">"Nataly är en av de mest strukturerade och empatiska ledare jag arbetat med. Levererar alltid."</p></div>
+            </div>
+            <div class="ref-item">
+              <div class="ref-avatar">PL</div>
+              <div><div class="ref-name">Peter Lindström</div><div class="ref-role">HR-direktör · Coop Sverige</div><p class="ref-quote">"Exceptionell förmåga att hantera komplexa HR-frågor och samtidigt behålla teamets motivation."</p></div>
+            </div>
+          </div>
+
+        </div>
+        <div class="pass-footer">
+          <div class="pass-id">KASTER-ID · NK-2024-0042</div>
+          <div class="pass-footer-right">
+            <span class="contact-locked">🔒 Kontaktuppgifter låsta</span>
+            <a href="signup.html" class="btn-unlock">Lås upp · 499 kr/mån</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HÖGER -->
+    <aside class="right-panel">
+      <div class="right-card">
+        <div class="right-card-title">Liknande kandidater</div>
+        <div class="similar-profile"><div class="sim-avatar">ML</div><div><div class="sim-name">Marcus L.</div><div class="sim-role">UX Designer · Göteborg</div></div></div>
+        <div class="similar-profile"><div class="sim-avatar green">SA</div><div><div class="sim-name">Sara A.</div><div class="sim-role">HR-chef · Stockholm</div></div></div>
+        <div class="similar-profile"><div class="sim-avatar orange">JB</div><div><div class="sim-name">Johan B.</div><div class="sim-role">Projektledare · Malmö</div></div></div>
+      </div>
+      <div class="right-card upgrade-card">
+        <div class="upgrade-title">Hitta fler kandidater</div>
+        <p class="upgrade-text">Få tillgång till alla verifierade profiler och kontaktuppgifter.</p>
+        <a href="signup.html" class="btn-upgrade">Uppgradera · 499 kr/mån</a>
+      </div>
+    </aside>
+
+  </div>
+
+  <script>
+    // Show hamburger on mobile
+    function checkMobile() {
+      const isMobile = window.innerWidth <= 768;
+      const navLinks = document.querySelector('.nav-links');
+      const navMobile = document.querySelector('.nav-mobile');
+      if (navLinks) navLinks.style.display = isMobile ? 'none' : 'flex';
+      if (navMobile) navMobile.style.display = isMobile ? 'flex' : 'none';
+    }
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const isOpen = menu.style.display === 'flex';
+      menu.style.display = isOpen ? 'none' : 'flex';
+    }
+    window.addEventListener('resize', checkMobile);
+    checkMobile();
+  </script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hur det fungerar — Kaster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --navy: #1a3350; --navy-dark: #0f1f32; --navy-light: #2a4a6e; --accent: #4a8fc1; --accent-light: #e8f2fa; --white: #ffffff; --off-white: #f7f8fa; --gray-100: #f0f2f5; --gray-200: #e2e6ec; --gray-400: #9aa5b4; --gray-600: #4a5568; --gray-800: #1a202c; --green: #2d7a4f; --green-light: #e8f5ef; --font-display: 'DM Serif Display', Georgia, serif; --font-body: 'DM Sans', system-ui, sans-serif; }
+    body { font-family: var(--font-body); background: var(--off-white); color: var(--gray-800); -webkit-font-smoothing: antialiased; }
+    .navbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--gray-200); padding: 0 48px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: var(--font-display); font-size: 24px; color: var(--navy-dark); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--gray-600); text-decoration: none; }
+    .btn-nav { background: var(--navy) !important; color: white !important; font-size: 13px; font-weight: 600; padding: 10px 22px; border-radius: 8px; text-decoration: none; }
+    .hero { background: var(--navy-dark); padding: 96px 48px; text-align: center; }
+    .hero-eyebrow { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); background: rgba(74,143,193,0.12); border: 1px solid rgba(74,143,193,0.25); padding: 6px 16px; border-radius: 20px; margin-bottom: 24px; }
+    .hero h1 { font-family: var(--font-display); font-size: 56px; color: white; letter-spacing: -2px; margin-bottom: 16px; line-height: 1.05; }
+    .hero h1 em { font-style: italic; color: #a0c8e8; }
+    .hero-sub { font-size: 18px; color: #7a9ab8; max-width: 500px; margin: 0 auto; line-height: 1.65; font-weight: 300; }
+    .section { padding: 96px 48px; }
+    .section-alt { background: var(--white); }
+    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; text-align: center; }
+    .section-title { font-family: var(--font-display); font-size: 44px; color: var(--navy-dark); text-align: center; letter-spacing: -1px; margin-bottom: 16px; line-height: 1.1; }
+    .section-sub { font-size: 17px; color: var(--gray-600); text-align: center; max-width: 520px; margin: 0 auto 64px; line-height: 1.65; font-weight: 300; }
+    .tabs { display: flex; justify-content: center; gap: 0; margin-bottom: 64px; background: var(--gray-100); border-radius: 10px; padding: 4px; max-width: 400px; margin: 0 auto 64px; }
+    .tab { flex: 1; text-align: center; padding: 10px 24px; font-size: 14px; font-weight: 600; color: var(--gray-600); cursor: pointer; border-radius: 8px; transition: all 0.2s; }
+    .tab.active { background: white; color: var(--navy-dark); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .steps-wrap { max-width: 800px; margin: 0 auto; }
+    .step-row { display: grid; grid-template-columns: 80px 1fr; gap: 32px; margin-bottom: 48px; align-items: flex-start; }
+    .step-num-wrap { display: flex; flex-direction: column; align-items: center; gap: 0; }
+    .step-num { width: 56px; height: 56px; border-radius: 50%; background: var(--navy-dark); color: white; font-family: var(--font-display); font-size: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .step-line { width: 2px; height: 48px; background: var(--gray-200); margin-top: 8px; }
+    .step-row:last-child .step-line { display: none; }
+    .step-content { padding-top: 12px; }
+    .step-tag { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+    .step-title { font-family: var(--font-display); font-size: 26px; color: var(--navy-dark); margin-bottom: 10px; letter-spacing: -0.5px; }
+    .step-text { font-size: 15px; color: var(--gray-600); line-height: 1.7; margin-bottom: 16px; }
+    .step-detail { background: white; border-radius: 12px; border: 1px solid var(--gray-200); padding: 20px 24px; }
+    .step-detail-title { font-size: 12px; font-weight: 700; color: var(--navy-dark); margin-bottom: 10px; letter-spacing: 0.5px; }
+    .step-detail-list { display: flex; flex-direction: column; gap: 8px; }
+    .step-detail-item { display: flex; gap: 10px; font-size: 13px; color: var(--gray-600); }
+    .step-check { color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .faq { max-width: 720px; margin: 0 auto; }
+    .faq-item { border-bottom: 1px solid var(--gray-200); padding: 24px 0; }
+    .faq-q { font-size: 17px; font-weight: 600; color: var(--navy-dark); margin-bottom: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .faq-a { font-size: 15px; color: var(--gray-600); line-height: 1.7; }
+    .cta { background: var(--navy-dark); padding: 96px 48px; text-align: center; }
+    .cta h2 { font-family: var(--font-display); font-size: 48px; color: white; letter-spacing: -1.5px; margin-bottom: 16px; }
+    .cta h2 em { font-style: italic; color: #a0c8e8; }
+    .cta p { font-size: 17px; color: #5a7a98; margin-bottom: 40px; }
+    .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: var(--accent); color: white; font-size: 15px; font-weight: 600; padding: 14px 32px; border-radius: 8px; text-decoration: none; }
+    .btn-outline { background: transparent; color: white; font-size: 15px; font-weight: 500; padding: 14px 32px; border-radius: 8px; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); }
+    .footer { background: #0a1628; padding: 48px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-logo { font-family: var(--font-display); font-size: 22px; color: #3a5a78; }
+    .footer-logo span { color: #2a4a68; }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-links a { font-size: 13px; color: #2a4a68; text-decoration: none; }
+    .footer-text { font-size: 13px; color: #2a4a68; }
+
+@media (max-width: 768px) {
+  .navbar { padding: 0 20px; height: 56px; }
+  .nav-links { display: none; }
+  .nav-mobile { display: flex; align-items: center; gap: 12px; }
+  .btn-nav-mobile { background: var(--navy); color: white !important; font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 6px; text-decoration: none; }
+  .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--navy-dark); border-radius: 2px; }
+  .hero { padding: 64px 24px 48px; }
+  .hero h1 { font-size: 40px; letter-spacing: -1.5px; }
+  .hero-sub { font-size: 16px; }
+  .hero-actions { flex-direction: column; align-items: center; }
+  .hero-actions a { width: 100%; text-align: center; }
+  .hero-stats { gap: 32px; flex-wrap: wrap; padding-top: 32px; }
+  .hero-stat-num { font-size: 28px; }
+  .section { padding: 64px 24px; }
+  .section-title { font-size: 32px; }
+  .section-sub { font-size: 15px; margin-bottom: 40px; }
+  .steps { grid-template-columns: 1fr; gap: 20px; }
+  .features { grid-template-columns: 1fr; gap: 16px; }
+  .preview-wrap { grid-template-columns: 1fr; gap: 40px; }
+  .for-who { grid-template-columns: 1fr; gap: 20px; }
+  .cta { padding: 64px 24px; }
+  .cta h2 { font-size: 36px; }
+  .cta-btns { flex-direction: column; align-items: center; }
+  .cta-btns a { width: 100%; text-align: center; }
+  .footer { padding: 32px 24px; flex-direction: column; gap: 20px; text-align: center; }
+  .footer-links { justify-content: center; }
+  .page-layout { grid-template-columns: 1fr; }
+  .left-panel { display: none; }
+  .right-panel { display: none; }
+  .pass-header { padding: 24px; flex-direction: column; gap: 16px; }
+  .pass-avatar { width: 64px; height: 64px; font-size: 22px; }
+  .pass-name { font-size: 24px; }
+  .pass-body { padding: 0 24px; }
+  .pass-footer { padding: 16px 24px; flex-direction: column; gap: 12px; align-items: flex-start; }
+  .skill-grid { grid-template-columns: 1fr; }
+  .page { grid-template-columns: 1fr; }
+  .left { display: none; }
+  .right { padding: 48px 32px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-stats-cards { display: none; }
+  .pricing-grid { grid-template-columns: 1fr; gap: 20px; }
+  .pricing-card.featured { transform: scale(1); }
+  .pricing-cards { grid-template-columns: 1fr; }
+  .compare { overflow-x: auto; }
+  .values { grid-template-columns: 1fr; gap: 16px; }
+  .team { grid-template-columns: 1fr; gap: 16px; }
+  .main { grid-template-columns: 1fr; padding: 24px; }
+  .filters { display: none; }
+  .search-bar { margin: 0 24px; }
+  .feed-section { padding: 0; }
+  .pass-meta { gap: 12px; }
+  .exp-top { flex-direction: column; gap: 4px; }
+  .steps-wrap { padding: 0; }
+  .step-row { grid-template-columns: 48px 1fr; gap: 16px; }
+  .faq { padding: 0; }
+  .contact-box { padding: 32px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+  .verify-body { padding: 24px; }
+  .verify-header { padding: 32px 24px; }
+  .pass-footer-right { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .profile-top { flex-wrap: wrap; }
+  .card-actions { flex-direction: row; margin-left: 0; margin-top: 8px; }
+  .card-top { flex-wrap: wrap; }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 32px; }
+  .section-title { font-size: 28px; }
+  .pass-name { font-size: 20px; }
+  .hero-eyebrow { font-size: 10px; padding: 5px 12px; }
+}
+
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="logo">kaster<span>.</span></a>
+    <div class="nav-links">
+      <a href="how-it-works.html">Hur det fungerar</a>
+      <a href="for-employers.html">För företag</a>
+      <a href="pricing.html">Priser</a>
+      <a href="login.html">Logga in</a>
+      <a href="signup.html" class="btn-nav">Skapa profil</a>
+    </div>
+  
+    <div class="nav-mobile" style="display:none;">
+      <a href="signup.html" class="btn-nav-mobile">Skapa profil</a>
+      <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" style="display:none;position:fixed;top:56px;left:0;right:0;background:white;border-bottom:1px solid #e2e6ec;padding:16px 24px;z-index:99;flex-direction:column;gap:0;">
+      <a href="index.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Startsida</a>
+      <a href="how-it-works.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Hur det fungerar</a>
+      <a href="for-employers.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">För företag</a>
+      <a href="pricing.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Priser</a>
+      <a href="about.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Om oss</a>
+      <a href="login.html" style="display:block;padding:14px 0;font-size:15px;color:#4a5568;text-decoration:none;border-bottom:1px solid #f0f2f5;font-weight:500;">Logga in</a>
+      <a href="signup.html" style="display:block;margin-top:12px;background:#1a3350;color:white;text-align:center;padding:14px;border-radius:8px;font-size:15px;font-weight:600;text-decoration:none;">Skapa profil — 99 kr</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Enkelt som det ska vara</div>
+    <h1>Så fungerar<br><em>Kaster</em></h1>
+    <p class="hero-sub">Från profil till verifierad kandidat — allt på under en dag.</p>
+  </div>
+
+  <section class="section">
+    <p class="section-label">För kandidater</p>
+    <h2 class="section-title">Din väg till ett verifierat CV-pass</h2>
+    <p class="section-sub">Fyra enkla steg som ger dig ett CV som arbetsgivare kan lita på.</p>
+    <div class="steps-wrap">
+      <div class="step-row">
+        <div class="step-num-wrap"><div class="step-num">1</div><div class="step-line"></div></div>
+        <div class="step-content">
+          <div class="step-tag">Steg 1</div>
+          <h3 class="step-title">Skapa ditt konto</h3>
+          <p class="step-text">Registrera dig med din e-postadress eller Google-konto. Engångsbetalning på 99 kr — profilen är din för alltid.</p>
+          <div class="step-detail">
+            <div class="step-detail-title">Detta ingår</div>
+            <div class="step-detail-list">
+              <div class="step-detail-item"><span class="step-check">✓</span>Obegränsat antal kompetenser</div>
+              <div class="step-detail-item"><span class="step-check">✓</span>Upp till 10 verifierade referenser</div>
+              <div class="step-detail-item"><span class="step-check">✓</span>Nedladdning som PDF med QR-kod</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num-wrap"><div class="step-num">2</div><div class="step-line"></div></div>
+        <div class="step-content">
+          <div class="step-tag">Steg 2</div>
+          <h3 class="step-title">Bygg din profil</h3>
+          <p class="step-text">Lägg till din erfarenhet, kompetenser, utbildning och vad du söker. Det tar ungefär 10–15 minuter.</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num-wrap"><div class="step-num">3</div><div class="step-line"></div></div>
+        <div class="step-content">
+          <div class="step-tag">Steg 3</div>
+          <h3 class="step-title">Bjud in referenser</h3>
+          <p class="step-text">Ange e-postadressen till en tidigare chef eller kollega. De får en länk och bekräftar dina kompetenser med ett klick — de behöver inget konto.</p>
+          <div class="step-detail">
+            <div class="step-detail-title">Hur verifieringen fungerar</div>
+            <div class="step-detail-list">
+              <div class="step-detail-item"><span class="step-check">✓</span>Referensen får ett mail med en personlig länk</div>
+              <div class="step-detail-item"><span class="step-check">✓</span>De bekräftar eller nekar varje kompetens</div>
+              <div class="step-detail-item"><span class="step-check">✓</span>Optionellt: de kan skriva ett kort citat</div>
+              <div class="step-detail-item"><span class="step-check">✓</span>Du får en notis när verifieringen är klar</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num-wrap"><div class="step-num">4</div></div>
+        <div class="step-content">
+          <div class="step-tag">Steg 4</div>
+          <h3 class="step-title">Bli hittad — eller dela ditt pass</h3>
+          <p class="step-text">Nu är du sökbar för arbetsgivare. Ladda även ner ditt Kaster-pass som PDF och bifoga det i ansökningar. Arbetsgivaren kan scanna QR-koden för att verifiera äktheten.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <p class="section-label">Vanliga frågor</p>
+    <h2 class="section-title">Frågor & svar</h2>
+    <p class="section-sub">Hittar du inte svaret? Kontakta oss på hej@kaster.io</p>
+    <div class="faq">
+      <div class="faq-item"><div class="faq-q">Måste mina referenser ha ett Kaster-konto? <span>+</span></div><div class="faq-a">Nej, de behöver inget konto. De klickar bara på länken i mailet och bekräftar dina kompetenser direkt i webbläsaren.</div></div>
+      <div class="faq-item"><div class="faq-q">Vad händer om en referens vill dra tillbaka sin verifiering? <span>+</span></div><div class="faq-a">De kan när som helst logga in via sin ursprungliga länk och dra tillbaka verifieringen. Kompetensen går då tillbaka till "Väntar verifiering" och du får en notis.</div></div>
+      <div class="faq-item"><div class="faq-q">Kan arbetsgivare se mitt telefonnummer eller e-post? <span>+</span></div><div class="faq-a">Nej. Kontaktuppgifter är alltid låsta. Arbetsgivare med betalabonnemang kan skicka meddelanden via Kasters inbyggda system. Du väljer om du vill svara.</div></div>
+      <div class="faq-item"><div class="faq-q">Hur länge gäller min profil? <span>+</span></div><div class="faq-a">Din profil gäller för alltid med engångsbetalningen på 99 kr. Du kan uppdatera den när som helst.</div></div>
+      <div class="faq-item"><div class="faq-q">Är Kaster GDPR-säkert? <span>+</span></div><div class="faq-a">Ja. Du äger din data, kan radera din profil när som helst och all data lagras inom EU. Vi säljer aldrig din data till tredje part.</div></div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2>Redo att komma<br><em>igång?</em></h2>
+    <p>Det tar mindre än 15 minuter att skapa ditt Kaster-pass.</p>
+    <div class="cta-btns">
+      <a href="signup.html" class="btn-primary">Skapa ditt pass — 99 kr</a>
+      <a href="for-employers.html" class="btn-outline">För arbetsgivare</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-logo">kaster<span>.</span></div>
+    <div class="footer-links">
+      <a href="how-it-works.html">Hur det fungerar</a>
+      <a href="for-employers.html">För företag</a>
+      <a href="pricing.html">Priser</a>
+      <a href="about.html">Om oss</a>
+    </div>
+    <div class="footer-text">© 2024 Kaster. Alla rättigheter förbehållna.</div>
+  </footer>
+
+  <script>
+    // Show hamburger on mobile
+    function checkMobile() {
+      const isMobile = window.innerWidth <= 768;
+      const navLinks = document.querySelector('.nav-links');
+      const navMobile = document.querySelector('.nav-mobile');
+      if (navLinks) navLinks.style.display = isMobile ? 'none' : 'flex';
+      if (navMobile) navMobile.style.display = isMobile ? 'flex' : 'none';
+    }
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const isOpen = menu.style.display === 'flex';
+      menu.style.display = isOpen ? 'none' : 'flex';
+    }
+    window.addEventListener('resize', checkMobile);
+    checkMobile();
+  </script>
+</body>
+</html>
