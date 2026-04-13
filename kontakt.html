@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kontakt — Kaster</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--white:#FFFFFF;--off:#F9F8FC;--pale:#EDE8F7;--border:#E4E0EF;--dark:#1A1820;--mid:#4A4758;--light:#6B6880;--purple:#7C5CBF;--deep:#5B3F9E;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--white);font-family:'DM Sans',sans-serif;color:var(--dark);line-height:1.6;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .7s ease forwards;}
+.fu2{animation:fadeUp .7s .15s ease forwards;opacity:0;}
+nav{position:sticky;top:0;z-index:100;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:16px 56px;background:rgba(255,255,255,.96);border-bottom:0.5px solid var(--border);backdrop-filter:blur(8px);}
+.logo{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:400;color:var(--dark);text-decoration:none;display:flex;align-items:center;gap:4px;}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--purple);flex-shrink:0;margin-bottom:2px;}
+.nav-center{display:flex;align-items:center;gap:32px;justify-content:center;}
+.nav-center a{font-size:13px;color:var(--mid);text-decoration:none;transition:color .2s;}
+.nav-center a:hover,.nav-center a.active{color:var(--dark);}
+.nav-center a.active{font-weight:500;}
+.nav-r{display:flex;align-items:center;justify-content:flex-end;}
+.nav-btn{background:var(--purple)!important;color:white!important;padding:9px 22px;border-radius:100px;font-weight:500!important;text-decoration:none;font-size:13px;}
+
+.page-hero{padding:80px 56px 72px;background:var(--pale);text-align:center;position:relative;}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--purple);display:inline-flex;align-items:center;gap:10px;margin-bottom:14px;}
+.eyebrow::before{content:'';width:20px;height:1px;background:var(--purple);}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,52px);font-weight:300;line-height:1.1;color:var(--dark);margin-bottom:16px;}
+.hero-sub{font-size:16px;color:var(--mid);line-height:1.75;max-width:440px;margin:0 auto;}
+
+.contact-section{padding:96px 56px;max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+
+.contact-info{}
+.info-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--dark);margin-bottom:16px;}
+.info-text{font-size:14px;color:var(--mid);line-height:1.8;margin-bottom:32px;}
+.info-item{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px;}
+.info-dot{width:8px;height:8px;border-radius:50%;background:var(--purple);flex-shrink:0;margin-top:5px;}
+.info-label{font-size:12px;font-weight:500;color:var(--dark);margin-bottom:2px;}
+.info-val{font-size:13px;color:var(--mid);}
+
+.contact-form{}
+.form-group{margin-bottom:20px;}
+label{display:block;font-size:12px;font-weight:500;color:var(--dark);margin-bottom:6px;}
+input,textarea,select{width:100%;padding:12px 16px;border:0.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dark);background:var(--white);transition:border-color .2s;outline:none;}
+input:focus,textarea:focus,select:focus{border-color:var(--purple);}
+textarea{resize:vertical;min-height:120px;}
+.form-btn{width:100%;background:var(--purple);color:white;font-size:14px;font-weight:500;padding:14px;border-radius:100px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s;margin-top:8px;}
+.form-btn:hover{background:var(--deep);}
+.form-note{font-size:11px;color:var(--light);margin-top:10px;text-align:center;}
+
+footer{padding:36px 56px;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.fl{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--dark);}
+.flinks{display:flex;gap:24px;}
+.flinks a{font-size:12px;color:var(--light);text-decoration:none;}
+.flinks a:hover{color:var(--dark);}
+.fc{font-size:11px;color:var(--light);}
+
+@media(max-width:900px){
+  nav{grid-template-columns:1fr 1fr;padding:14px 24px;}
+  .nav-center{display:none;}
+  .page-hero,.contact-section{padding:60px 28px;}
+  .contact-section{grid-template-columns:1fr;gap:48px;}
+  footer{flex-direction:column;gap:16px;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="kaster.html" class="logo">kaster<div class="logo-dot"></div></a>
+  <div class="nav-center">
+    <a href="hur-det-fungerar.html">Hur det fungerar</a>
+    <a href="for-arbetsgivare.html">För arbetsgivare</a>
+    <a href="kontakt.html" class="active">Kontakt</a>
+  </div>
+  <div class="nav-r"><a href="#" class="nav-btn">Skapa konto</a></div>
+</nav>
+
+<section class="page-hero">
+  <div class="eyebrow fu">Kontakt</div>
+  <h1 class="fu2">Hör av dig.</h1>
+  <p class="hero-sub fu2">Vi bygger Kaster och vill gärna prata med dig — oavsett om du är kandidat, arbetsgivare eller bara nyfiken.</p>
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none" style="display:block;width:100%;height:60px;margin-top:40px;" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,60 C240,20 480,80 720,50 C960,20 1200,70 1440,45 L1440,80 L0,80 Z" fill="#FFFFFF"/>
+  </svg>
+</section>
+
+<section class="contact-section">
+  <div class="contact-info">
+    <div class="info-title">Vi är i ett tidigt skede och vill höra från dig.</div>
+    <p class="info-text">Kaster är under uppbyggnad. Vi söker tidiga användare, partners och arbetsgivare som vill vara med från start. Hör av dig så berättar vi mer.</p>
+    <div class="info-item">
+      <div class="info-dot"></div>
+      <div>
+        <div class="info-label">Mejl</div>
+        <div class="info-val">hej@kaster.se</div>
+      </div>
+    </div>
+    <div class="info-item">
+      <div class="info-dot"></div>
+      <div>
+        <div class="info-label">Grundare</div>
+        <div class="info-val">Nathalie Kyrk</div>
+      </div>
+    </div>
+    <div class="info-item">
+      <div class="info-dot"></div>
+      <div>
+        <div class="info-label">Baserade i</div>
+        <div class="info-val">Stockholm, Sverige</div>
+      </div>
+    </div>
+    <div class="info-item">
+      <div class="info-dot"></div>
+      <div>
+        <div class="info-label">Hemsida</div>
+        <div class="info-val">kaster.se</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-form">
+    <div class="form-group">
+      <label>Namn</label>
+      <input type="text" placeholder="Ditt namn"/>
+    </div>
+    <div class="form-group">
+      <label>E-post</label>
+      <input type="email" placeholder="din@email.se"/>
+    </div>
+    <div class="form-group">
+      <label>Jag är</label>
+      <select>
+        <option value="">Välj ett alternativ</option>
+        <option>Kandidat som söker jobb</option>
+        <option>Arbetsgivare som vill rekrytera</option>
+        <option>Potentiell partner</option>
+        <option>Investerare</option>
+        <option>Annat</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Meddelande</label>
+      <textarea placeholder="Berätta gärna vad du vill prata om..."></textarea>
+    </div>
+    <button class="form-btn">Skicka meddelande</button>
+    <p class="form-note">Vi svarar inom 1 till 2 arbetsdagar.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="fl" style="display:flex;align-items:center;gap:4px;">kaster<span style="width:7px;height:7px;border-radius:50%;background:var(--purple);display:inline-block;margin-bottom:2px;"></span></div>
+  <div class="flinks">
+    <a href="hur-det-fungerar.html">Hur det fungerar</a>
+    <a href="for-arbetsgivare.html">För arbetsgivare</a>
+    <a href="kontakt.html">Kontakt</a>
+  </div>
+  <div class="fc">© 2026 Kaster</div>
+</footer>
+
+</body>
+</html>
