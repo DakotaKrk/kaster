@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Kontakt — Kaster</title>
+<title>Kontakt Kaster</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{--white:#FFFFFF;--off:#F9F8FC;--pale:#EDE8F7;--border:#E4E0EF;--dark:#1A1820;--mid:#4A4758;--light:#6B6880;--purple:#7C5CBF;--deep:#5B3F9E;}
@@ -80,9 +80,9 @@ footer{padding:36px 56px;border-top:0.5px solid var(--border);display:flex;justi
 <section class="page-hero">
   <div class="eyebrow fu">Kontakt</div>
   <h1 class="fu2">Hör av dig.</h1>
-  <p class="hero-sub fu2">Vi bygger Kaster och vill gärna prata med dig — oavsett om du är kandidat, arbetsgivare eller bara nyfiken.</p>
+  <p class="hero-sub fu2">Vi bygger Kaster och vill gärna prata med dig oavsett om du är kandidat, arbetsgivare eller bara nyfiken.</p>
   <svg viewBox="0 0 1440 80" preserveAspectRatio="none" style="display:block;width:100%;height:60px;margin-top:40px;" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0,60 C240,20 480,80 720,50 C960,20 1200,70 1440,45 L1440,80 L0,80 Z" fill="#FFFFFF"/>
+    <path d="M0,55 C360,80 720,30 1080,60 C1200,68 1340,50 1440,55 L1440,80 L0,80 Z" fill="#FFFFFF"/>
   </svg>
 </section>
 
@@ -121,17 +121,25 @@ footer{padding:36px 56px;border-top:0.5px solid var(--border);display:flex;justi
   </div>
 
   <div class="contact-form">
-    <div class="form-group">
-      <label>Namn</label>
-      <input type="text" placeholder="Ditt namn"/>
+    <div id="form-success" style="display:none;background:#E8F5E9;border-radius:12px;padding:24px;text-align:center;margin-bottom:20px;">
+      <div style="font-size:24px;margin-bottom:8px;">&#10003;</div>
+      <div style="font-size:15px;font-weight:500;color:#2E7D32;margin-bottom:4px;">Tack för ditt meddelande!</div>
+      <div style="font-size:13px;color:#4A4758;">Vi återkommer inom 1 till 2 arbetsdagar.</div>
+    </div>
+    <div id="form-error" style="display:none;background:#FFEBEE;border-radius:12px;padding:16px;margin-bottom:20px;">
+      <div style="font-size:13px;color:#C62828;">Något gick fel. Försök igen eller mejla hej@kaster.se</div>
     </div>
     <div class="form-group">
-      <label>E-post</label>
-      <input type="email" placeholder="din@email.se"/>
+      <label for="name">Namn</label>
+      <input type="text" id="name" name="name" placeholder="Ditt namn" required/>
     </div>
     <div class="form-group">
-      <label>Jag är</label>
-      <select>
+      <label for="email">E-post</label>
+      <input type="email" id="email" name="email" placeholder="din@email.se" required/>
+    </div>
+    <div class="form-group">
+      <label for="role">Jag är</label>
+      <select id="role" name="role">
         <option value="">Välj ett alternativ</option>
         <option>Kandidat som söker jobb</option>
         <option>Arbetsgivare som vill rekrytera</option>
@@ -141,12 +149,58 @@ footer{padding:36px 56px;border-top:0.5px solid var(--border);display:flex;justi
       </select>
     </div>
     <div class="form-group">
-      <label>Meddelande</label>
-      <textarea placeholder="Berätta gärna vad du vill prata om..."></textarea>
+      <label for="message">Meddelande</label>
+      <textarea id="message" name="message" placeholder="Berätta gärna vad du vill prata om..." required></textarea>
     </div>
-    <button class="form-btn">Skicka meddelande</button>
+    <button class="form-btn" id="submit-btn" type="button" onclick="submitForm()">Skicka meddelande</button>
     <p class="form-note">Vi svarar inom 1 till 2 arbetsdagar.</p>
   </div>
+
+  <script>
+  async function submitForm() {
+    const btn = document.getElementById('submit-btn');
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+    const role = document.getElementById('role').value;
+    const success = document.getElementById('form-success');
+    const error = document.getElementById('form-error');
+
+    if (!name || !email || !message) {
+      error.style.display = 'block';
+      error.querySelector('div').textContent = 'Fyll i namn, e-post och meddelande.';
+      return;
+    }
+
+    btn.textContent = 'Skickar...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('https://formspree.io/f/mzdybvdv', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ name, email, role, message })
+      });
+
+      if (res.ok) {
+        success.style.display = 'block';
+        error.style.display = 'none';
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('message').value = '';
+        document.getElementById('role').value = '';
+        btn.textContent = 'Skickat!';
+      } else {
+        throw new Error('Server error');
+      }
+    } catch(e) {
+      error.style.display = 'block';
+      success.style.display = 'none';
+      btn.textContent = 'Skicka meddelande';
+      btn.disabled = false;
+    }
+  }
+  </script>
 </section>
 
 <footer>
