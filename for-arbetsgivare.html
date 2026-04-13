@@ -101,6 +101,30 @@ footer{padding:36px 56px;border-top:0.5px solid var(--border);display:flex;justi
   .plans,.feat-grid{grid-template-columns:1fr;}
   footer{flex-direction:column;gap:16px;text-align:center;}
 }
+
+@media (max-width: 600px) {
+  nav { grid-template-columns: 1fr auto; padding: 14px 20px; }
+  .logo { font-size: 24px; }
+  .page-hero { padding: 48px 20px 0; }
+  h1 { font-size: 32px; }
+  .hero-sub { font-size: 14px; }
+  .step-block { grid-template-columns: 1fr !important; gap: 24px; }
+  .step-block.reverse { direction: ltr; }
+  .plans { grid-template-columns: 1fr !important; }
+  .feat-grid { grid-template-columns: 1fr !important; }
+  [style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+  [style*="padding:96px 56px"] { padding: 48px 20px !important; }
+  [style*="padding:80px 56px"] { padding: 48px 20px !important; }
+  .contact-section { grid-template-columns: 1fr !important; padding: 48px 20px !important; }
+  .cta { padding: 60px 20px !important; }
+  .cta h2 { font-size: 28px; }
+  .cta-btns { flex-direction: column; align-items: center; }
+  .cta-btns a { width: 100%; max-width: 280px; text-align: center; }
+  footer { padding: 28px 20px; flex-direction: column; gap: 16px; text-align: center; }
+  .flinks { flex-wrap: wrap; justify-content: center; }
+  .vis-card { padding: 20px; }
+  .faq { padding: 48px 20px; }
+}
 </style>
 </head>
 <body>
