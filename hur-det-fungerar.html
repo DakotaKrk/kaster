@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hur det fungerar — Kaster</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--white:#FFFFFF;--off:#F9F8FC;--pale:#EDE8F7;--border:#E4E0EF;--dark:#1A1820;--mid:#4A4758;--light:#6B6880;--purple:#7C5CBF;--deep:#5B3F9E;--gold:#C9A84C;--green:#2E7D32;--green-bg:#E8F5E9;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--white);font-family:'DM Sans',sans-serif;color:var(--dark);line-height:1.6;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .7s ease forwards;}
+.fu2{animation:fadeUp .7s .15s ease forwards;opacity:0;}
+.fu3{animation:fadeUp .7s .3s ease forwards;opacity:0;}
+nav{position:sticky;top:0;z-index:100;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:16px 56px;background:rgba(255,255,255,.96);border-bottom:0.5px solid var(--border);backdrop-filter:blur(8px);}
+.logo{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:400;color:var(--dark);text-decoration:none;display:flex;align-items:center;gap:4px;}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--purple);flex-shrink:0;margin-bottom:2px;}
+.nav-center{display:flex;align-items:center;gap:32px;justify-content:center;}
+.nav-center a{font-size:13px;color:var(--mid);text-decoration:none;transition:color .2s;}
+.nav-center a:hover,.nav-center a.active{color:var(--dark);}
+.nav-center a.active{font-weight:500;}
+.nav-r{display:flex;align-items:center;justify-content:flex-end;}
+.nav-btn{background:var(--purple)!important;color:white!important;padding:9px 22px;border-radius:100px;font-weight:500!important;text-decoration:none;font-size:13px;}
+.nav-btn:hover{background:var(--deep)!important;}
+
+/* PAGE HERO */
+.page-hero{padding:80px 56px 72px;background:var(--pale);text-align:center;position:relative;overflow:hidden;}
+.page-hero::after{content:'';position:absolute;bottom:-2px;left:0;width:100%;overflow:hidden;line-height:0;display:block;}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--purple);display:inline-flex;align-items:center;gap:10px;margin-bottom:14px;}
+.eyebrow::before{content:'';width:20px;height:1px;background:var(--purple);}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,56px);font-weight:300;line-height:1.1;color:var(--dark);margin-bottom:18px;}
+.hero-sub{font-size:16px;color:var(--mid);line-height:1.75;max-width:520px;margin:0 auto;}
+
+/* STEPS */
+.steps-section{padding:96px 56px;max-width:1100px;margin:0 auto;}
+.step-block{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;margin-bottom:96px;}
+.step-block.reverse{direction:rtl;}
+.step-block.reverse > *{direction:ltr;}
+.step-num{font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:300;color:var(--pale);line-height:1;margin-bottom:12px;}
+.step-title{font-size:22px;font-weight:500;color:var(--dark);margin-bottom:12px;}
+.step-text{font-size:14px;color:var(--mid);line-height:1.8;margin-bottom:20px;}
+.step-note{font-size:13px;color:var(--purple);display:flex;align-items:flex-start;gap:8px;}
+.step-note::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--purple);flex-shrink:0;margin-top:5px;}
+
+/* VISUAL CARD */
+.vis-card{background:var(--off);border-radius:20px;padding:28px;border:0.5px solid var(--border);}
+.vis-card.dark{background:var(--dark);}
+
+/* VERIFIED BADGE */
+.v-badge{display:inline-flex;align-items:center;gap:6px;background:var(--green-bg);color:var(--green);font-size:12px;font-weight:500;padding:6px 14px;border-radius:100px;}
+.v-badge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green);}
+
+/* FAQ */
+.faq{padding:80px 56px;background:var(--off);}
+.faq-inner{max-width:720px;margin:0 auto;}
+.faq-item{padding:24px 0;border-bottom:0.5px solid var(--border);}
+.faq-q{font-size:15px;font-weight:500;color:var(--dark);margin-bottom:10px;}
+.faq-a{font-size:14px;color:var(--mid);line-height:1.75;}
+
+/* CTA */
+.cta{background:#2D2440;padding:96px 56px;text-align:center;}
+.cta h2{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,48px);font-weight:300;color:white;margin-bottom:14px;line-height:1.15;}
+.cta p{font-size:15px;color:rgba(255,255,255,.4);margin-bottom:36px;}
+.cta-btns{display:flex;gap:12px;justify-content:center;}
+.cw{font-size:14px;font-weight:500;background:white;color:var(--dark);padding:14px 30px;border-radius:100px;text-decoration:none;}
+.cw:hover{background:var(--pale);}
+.co{font-size:14px;color:rgba(255,255,255,.5);padding:14px 28px;border-radius:100px;border:0.5px solid rgba(255,255,255,.2);text-decoration:none;}
+.co:hover{color:white;border-color:white;}
+
+footer{padding:36px 56px;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.fl{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--dark);}
+.flinks{display:flex;gap:24px;}
+.flinks a{font-size:12px;color:var(--light);text-decoration:none;}
+.flinks a:hover{color:var(--dark);}
+.fc{font-size:11px;color:var(--light);}
+
+@media(max-width:900px){
+  nav{grid-template-columns:1fr 1fr;padding:14px 24px;}
+  .nav-center{display:none;}
+  .page-hero,.steps-section,.faq,.cta{padding:60px 28px;}
+  .step-block{grid-template-columns:1fr;gap:32px;}
+  .step-block.reverse{direction:ltr;}
+  footer{flex-direction:column;gap:16px;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">kaster<div class="logo-dot"></div></a>
+  <div class="nav-center">
+    <a href="hur-det-fungerar.html" class="active">Hur det fungerar</a>
+    <a href="for-arbetsgivare.html">För arbetsgivare</a>
+    <a href="kontakt.html">Kontakt</a>
+  </div>
+  <div class="nav-r"><a href="#" class="nav-btn">Skapa konto</a></div>
+</nav>
+
+<section class="page-hero">
+  <div class="eyebrow fu">Hur det fungerar</div>
+  <h1 class="fu2">Tre steg till en<br>trovärdig profil.</h1>
+  <p class="hero-sub fu3">Bygg din kompetensportfölj, låt dina referenser bekräfta och sök jobb var du än är.</p>
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none" style="display:block;width:100%;height:60px;margin-top:40px;" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,60 C240,20 480,80 720,50 C960,20 1200,70 1440,45 L1440,80 L0,80 Z" fill="#FFFFFF"/>
+  </svg>
+</section>
+
+<div class="steps-section">
+
+  <div class="step-block">
+    <div>
+      <div class="step-num">01</div>
+      <div class="step-title">Skapa din profil</div>
+      <p class="step-text">Lägg till dina kompetenser, erfarenheter och utbildningar. Du bestämmer vad som visas. Välj bland hundratals CV-mallar och generera ditt CV direkt från plattformen.</p>
+      <p class="step-text">Även utan verifieringar kan du skapa ett snyggt CV och börja bygga din portfölj från dag ett.</p>
+      <div class="step-note">Gratis för kandidater. Inga dolda avgifter.</div>
+    </div>
+    <div class="vis-card">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--dark);margin-bottom:4px;">Anna Lindgren</div>
+      <div style="font-size:11px;color:var(--light);margin-bottom:16px;">HR-specialist · Stockholm</div>
+      <div style="font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--purple);margin-bottom:8px;padding-bottom:6px;border-bottom:0.5px solid var(--pale);">Kompetenser</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+        <span style="background:var(--green-bg);color:var(--green);font-size:10px;font-weight:500;padding:4px 10px;border-radius:4px;">Rekrytering</span>
+        <span style="background:var(--green-bg);color:var(--green);font-size:10px;font-weight:500;padding:4px 10px;border-radius:4px;">MBL</span>
+        <span style="background:var(--off);color:var(--mid);font-size:10px;padding:4px 10px;border-radius:4px;border:0.5px solid var(--border);">Ledarskap</span>
+        <span style="background:var(--off);color:var(--mid);font-size:10px;padding:4px 10px;border-radius:4px;border:0.5px solid var(--border);">Budget</span>
+      </div>
+      <div style="font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--purple);margin-bottom:8px;padding-bottom:6px;border-bottom:0.5px solid var(--pale);">Erfarenhet</div>
+      <div style="font-size:11px;font-weight:500;color:var(--dark);">HR-koordinator</div>
+      <div style="font-size:10px;color:var(--light);">Svevia · 2022–2026</div>
+    </div>
+  </div>
+
+  <div class="step-block reverse">
+    <div>
+      <div class="step-num">02</div>
+      <div class="step-title">Få dina kompetenser verifierade</div>
+      <p class="step-text">Bjud in en tidigare chef, kollega eller lärare. De bekräftar att du gjort vad du säger via en enkel länk — kopplat till deras namn, roll och företag.</p>
+      <p class="step-text">Varje verifiering visas med ett grönt märke och referensens uppgifter. Svårt att fejka, enkelt att lita på.</p>
+      <div class="step-note">BankID-verifiering tillkommer. LinkedIn och SMS används i tidigt skede.</div>
+    </div>
+    <div class="vis-card">
+      <div style="font-size:11px;color:var(--light);margin-bottom:16px;">Verifieringsförfrågan skickad till:</div>
+      <div style="display:flex;align-items:center;gap:10px;padding:12px;background:white;border-radius:12px;border:0.5px solid var(--border);margin-bottom:12px;">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--pale);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:var(--deep);flex-shrink:0;">MK</div>
+        <div>
+          <div style="font-size:13px;font-weight:500;color:var(--dark);">Maria Karlsson</div>
+          <div style="font-size:11px;color:var(--light);">HR-chef · Svevia</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--mid);margin-bottom:16px;line-height:1.6;">"Anna ledde rekryteringsprocesser självständigt och med gott resultat under hela sin anställning."</div>
+      <div class="v-badge">Maria K. · Svevia bekräftar</div>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div>
+      <div class="step-num">03</div>
+      <div class="step-title">Sök jobb var du än är</div>
+      <p class="step-text">Din profil följer med livet ut. Uppdatera den, anpassa den och generera ditt CV direkt från telefonen. Alltid rätt version, aldrig fel fil.</p>
+      <p class="step-text">Välj vad som visas beroende på vilken roll du söker. Lägg till ett QR-kod på ditt CV så arbetsgivaren når din verifierade profil direkt.</p>
+      <div class="step-note">Hur många har inte råkat skicka fel version av sitt CV? Kaster löser det.</div>
+    </div>
+    <div class="vis-card dark" style="display:flex;flex-direction:column;gap:14px;">
+      <div style="font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;">Profil tillgänglig på</div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--green);"></div>
+        <span style="font-size:13px;color:white;">Telefon, surfplatta, dator</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--green);"></div>
+        <span style="font-size:13px;color:white;">Alltid senaste versionen</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--green);"></div>
+        <span style="font-size:13px;color:white;">100+ CV-mallar att välja bland</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--green);"></div>
+        <span style="font-size:13px;color:white;">QR-kod kopplar till din profil</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--green);"></div>
+        <span style="font-size:13px;color:white;">Du äger din historia för alltid</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<section class="faq">
+  <div class="faq-inner">
+    <div style="font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--purple);display:flex;align-items:center;gap:10px;margin-bottom:14px;"><span style="width:20px;height:1px;background:var(--purple);display:block;"></span>Vanliga frågor</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3vw,38px);font-weight:300;margin-bottom:48px;">Har du frågor? Vi har svaren.</h2>
+    <div class="faq-item">
+      <div class="faq-q">Är Kaster gratis?</div>
+      <div class="faq-a">Ja, Kaster är gratis för kandidater. Du kan skapa en profil, lägga till kompetenser och generera CV utan kostnad. Premium-funktioner som QR-kod med verifierade badges kostar 99 kr som engångsbetalning.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Hur verifieras mina kompetenser?</div>
+      <div class="faq-a">Du bjuder in en referens via en personlig länk. De loggar in med LinkedIn eller e-post och SMS, bekräftar att de jobbat med dig och kan lämna en kort kommentar. Du godkänner alltid innan något publiceras.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Vem kan verifiera mina kompetenser?</div>
+      <div class="faq-a">En tidigare chef, kollega, kund, lärare eller annan person som kan intyga din kompetens. Referensen måste ha ett verifierat konto på Kaster för att kunna bekräfta.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Äger jag min profil?</div>
+      <div class="faq-a">Ja, alltid. Din profil är portabel och tillhör dig — inte din arbetsgivare eller någon plattform. Du tar med dig hela din karriärhistorik oavsett var du jobbar.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Vad händer om min referens slutar på sitt jobb?</div>
+      <div class="faq-a">Ingenting. Verifieringen är kopplad till personen, inte till företagets mejlsystem. Din badge är giltig oavsett var din referens jobbar idag.</div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Redo att bygga<br>din kompetensportfölj?</h2>
+  <p>Gratis för kandidater. Kom igång på några minuter.</p>
+  <div class="cta-btns">
+    <a href="#" class="cw">Skapa konto</a>
+    <a href="kontakt.html" class="co">Kontakta oss</a>
+  </div>
+</section>
+
+<footer>
+  <div class="fl" style="display:flex;align-items:center;gap:4px;">kaster<span style="width:7px;height:7px;border-radius:50%;background:var(--purple);display:inline-block;margin-bottom:2px;"></span></div>
+  <div class="flinks">
+    <a href="hur-det-fungerar.html">Hur det fungerar</a>
+    <a href="for-arbetsgivare.html">För arbetsgivare</a>
+    <a href="kontakt.html">Kontakt</a>
+  </div>
+  <div class="fc">© 2026 Kaster</div>
+</footer>
+
+</body>
+</html>
