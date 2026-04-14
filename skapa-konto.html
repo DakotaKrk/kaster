@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kaster — Snart här</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{font-family:'DM Sans',sans-serif;background:#F9F8FC;display:flex;flex-direction:column;min-height:100vh;}
+nav{padding:20px 40px;display:flex;align-items:center;}
+.logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:#1A1820;text-decoration:none;display:flex;align-items:center;gap:5px;}
+.logo-dot{width:7px;height:7px;border-radius:50%;background:#7C5CBF;flex-shrink:0;margin-bottom:2px;}
+.main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 24px;}
+.inner{text-align:center;max-width:480px;}
+.badge{display:inline-flex;align-items:center;gap:7px;background:white;color:#7C5CBF;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:6px 16px;border-radius:100px;margin-bottom:28px;border:0.5px solid #E4E0EF;}
+.badge::before{content:'';width:6px;height:6px;background:#7C5CBF;border-radius:50%;}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,56px);font-weight:300;line-height:1.08;color:#1A1820;margin-bottom:16px;}
+p{font-size:15px;color:#4A4758;line-height:1.75;margin-bottom:36px;max-width:380px;margin-left:auto;margin-right:auto;}
+.form{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+input[type=email]{font-family:'DM Sans',sans-serif;font-size:14px;padding:12px 18px;border:0.5px solid #E4E0EF;border-radius:100px;outline:none;background:white;color:#1A1820;width:240px;transition:border-color .2s;}
+input[type=email]:focus{border-color:#7C5CBF;}
+input[type=email]::placeholder{color:#9B98A8;}
+button{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;background:#7C5CBF;color:white;padding:12px 24px;border-radius:100px;border:none;cursor:pointer;transition:background .2s;}
+button:hover{background:#5B3F9E;}
+.thanks{display:none;font-size:14px;color:#2E7D32;background:#E8F5E9;padding:12px 20px;border-radius:100px;border:0.5px solid #A5D6A7;}
+.footer-note{padding:24px;text-align:center;font-size:11px;color:#9B98A8;}
+@media(max-width:480px){
+  nav{padding:16px 20px;}
+  input[type=email]{width:100%;}
+  .form{flex-direction:column;align-items:center;}
+  button{width:100%;max-width:280px;}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">kaster<div class="logo-dot"></div></a>
+</nav>
+
+<div class="main">
+  <div class="inner">
+    <div class="badge">Kommer snart</div>
+    <h1>Vi bygger något<br>du behöver.</h1>
+    <p>Kaster lanserar snart. Lämna din mejladress så får du veta när det är dags. Du är bland de första.</p>
+    <div class="form" id="form">
+      <input type="email" id="email" placeholder="din@email.se"/>
+      <button onclick="submit()">Håll mig uppdaterad</button>
+    </div>
+    <div class="thanks" id="thanks">Tack! Vi hör av oss när det är dags.</div>
+  </div>
+</div>
+
+<div class="footer-note">© 2026 Kaster · <a href="index.html" style="color:#9B98A8;text-decoration:none;">Tillbaka till startsidan</a></div>
+
+<script>
+function submit(){
+  const email = document.getElementById('email').value;
+  if(!email || !email.includes('@')){ document.getElementById('email').focus(); return; }
+  fetch('https://formspree.io/f/mzdybvdv',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({email, type:'waitlist'})
+  }).then(()=>{
+    document.getElementById('form').style.display='none';
+    document.getElementById('thanks').style.display='inline-flex';
+  }).catch(()=>{
+    document.getElementById('form').style.display='none';
+    document.getElementById('thanks').style.display='inline-flex';
+  });
+}
+document.getElementById('email').addEventListener('keydown', e=>{ if(e.key==='Enter') submit(); });
+</script>
+</body>
+</html>
